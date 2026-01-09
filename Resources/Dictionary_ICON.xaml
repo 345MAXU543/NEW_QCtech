@@ -1,0 +1,19 @@
+﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                    xmlns:sys="clr-namespace:System;assembly=mscorlib">
+<!--PNG才可以透明背景-->
+    <BitmapImage x:Key="Icon.LeftArrow" UriSource="pack://application:,,,/Resources/ICON/LeftArrow.png"/>
+
+    <BitmapImage x:Key="Icon.BTN_UP" UriSource="pack://application:,,,/Resources/ICON/btn_up.png"/>
+    <BitmapImage x:Key="Icon.BTN_DOWN" UriSource="pack://application:,,,/Resources/ICON/btn_down.png"/>
+    <BitmapImage x:Key="Icon.BTN_START" UriSource="pack://application:,,,/Resources/ICON/btn_Start.png"/>
+    <BitmapImage x:Key="Icon.BTN_RETURN" UriSource="pack://application:,,,/Resources/ICON/btn_Return.png"/>
+    <BitmapImage x:Key="Icon.BTN_ZERO" UriSource="pack://application:,,,/Resources/ICON/btn_zero.png"/>
+ 
+    <sys:String x:Key="Gif.UP">
+        pack://application:,,,/Resources/ICON/UPgif.gif
+    </sys:String>
+
+</ResourceDictionary>
+    
+    

@@ -1,0 +1,83 @@
+﻿<UserControl x:Class="NEW_QCtech.UserControl_ControlPanel"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:local="clr-namespace:NEW_QCtech"
+             mc:Ignorable="d" 
+             d:DesignHeight="700" d:DesignWidth="150" Loaded="UserControl_Loaded" SizeChanged="UserControl_SizeChanged" >
+    <!--DesignWidth= 350 為編輯時寬模式-->
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height= "1*"/>
+        </Grid.RowDefinitions>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="1*"/>
+        </Grid.ColumnDefinitions>
+
+
+
+        <Grid x:Name="grid_main" HorizontalAlignment="Stretch">
+
+            <WrapPanel Grid.Column="0" Grid.Row="0" UseLayoutRounding="False" HorizontalAlignment ="Stretch">
+
+                <Grid x:Name="grid_btnUP" Margin="5,0,0,5" MouseDown="grid_btnUP_MouseDown" MouseUp="grid_btnUP_MouseUp">
+                    <Rectangle  Width="100" Height="100" Fill="#FF32BC6E" RadiusX="14.559" RadiusY="14.559"/>
+                    <Image Source="{DynamicResource  Icon.BTN_UP}" Width="80" Height="80" Margin="10"/>
+                </Grid>
+
+                <Grid Margin="5,0,0,5">
+                    <Rectangle  Width="100" Height="100" Fill="#FF32BC6E" RadiusX="14.559" RadiusY="14.559"/>
+                    <Image Source="{DynamicResource  Icon.BTN_DOWN}" Width="80" Height="80" Margin="10"/>
+                </Grid>
+
+                <Grid x:Name="grid_01" Margin="5,0,0,5">
+                    <Rectangle  Width="100" Height="100" Fill="#FFBCB732" RadiusX="14.559" RadiusY="14.559"/>
+                </Grid>
+
+                <Grid>
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="*"/>
+                        <RowDefinition Height="*"/>
+                        <RowDefinition Height="*"/>
+                        <RowDefinition Height="*"/>
+                    </Grid.RowDefinitions>
+                    <Label Grid.Row="0" Content="SPEED"  Margin="5,0,0,0"  Foreground="White"  HorizontalContentAlignment="Center" FontSize="20" BorderThickness="2,2,2,0" BorderBrush="White"/>
+
+                    <TextBox x:Name="Textbox_ManualVelocity" Grid.Row="1" HorizontalAlignment="Center" Text="100" Width="100" Height="30" Margin="5,0,0,0"  Background="Transparent" Foreground="White" FontSize="20" HorizontalContentAlignment="Center" BorderThickness="2,0.5,2,0.5" BorderBrush="White"/>
+                    <Slider x:Name="slider_ManualVelocity" Grid.Row="3" Width="100" Height="30" BorderBrush="White" BorderThickness="2,0.5,2,2" Margin="5,0,0,5" VerticalAlignment="Bottom" HorizontalAlignment="Center" HorizontalContentAlignment="Center" Maximum="1000" AutoToolTipPlacement="BottomRight" VerticalContentAlignment="Bottom" ValueChanged="slider_ManualVelocity_ValueChanged" Value="100"/>
+                    <Label Grid.Row="2" Content="mm/min"  Margin="5,0,0,0"  Foreground="White"  HorizontalContentAlignment="Center" FontSize="20" BorderThickness="2,0,2,0" BorderBrush="White"/>
+                </Grid>
+
+                <Grid Margin="5,0,0,5">
+                    <Rectangle  Width="100" Height="100" Fill="#FF32BC6E" RadiusX="14.559" RadiusY="14.559"/>
+                    <Image Source="{DynamicResource  Icon.BTN_ZERO}"  Width="80" Height="80" Margin="10"/>
+                </Grid>
+
+                <Grid x:Name="grid_02" Margin="5,0,0,5">
+                    <Rectangle  Width="100" Height="100" Fill="#FFBCB732" RadiusX="14.559" RadiusY="14.559"/>
+                </Grid>
+                <Grid Margin="5,0,0,5">
+                    <Rectangle  Width="100" Height="100" Fill="#FF32BC6E" RadiusX="14.559" RadiusY="14.559"/>
+                    <Image Source="{DynamicResource  Icon.BTN_RETURN}"  Width="80" Height="80" Margin="10"/>
+                </Grid>
+
+                <Grid Margin="5,0,0,5">
+                    <Rectangle  Width="100" Height="100" Fill="#FF32BC6E" RadiusX="14.559" RadiusY="14.559"/>
+                    <Image Source="{DynamicResource  Icon.BTN_START}"  Width="80" Height="80" Margin="10"/>
+                </Grid>
+
+                <Grid Margin="5,0,0,5" x:Name="grid_More"  MouseDown="grid_More_MouseDown">
+                    <Rectangle  Width="100" Height="50" Fill="#FF32BC6E" RadiusX="14.559" RadiusY="14.559"/>
+                    <TextBlock Text="More..." TextAlignment="Center" HorizontalAlignment="Center" VerticalAlignment="Center" FontSize="26" Foreground="White"/>
+                </Grid>
+
+            </WrapPanel>
+            <Grid x:Name="grid_BackToSmallSize" Margin="0,658,206,0" MouseDown="grid_BackToSmallSize_MouseDown">
+                <Rectangle Fill="#FF32BC6E" RadiusX="5" RadiusY="5" MouseDown="grid_BackToSmallSize_MouseDown" Margin="0,0,0,0"/>
+                <TextBlock Text=">" FontSize="36" Foreground="White" HorizontalAlignment="Center" VerticalAlignment="Center" Margin="0,0,0,0" MouseDown="grid_BackToSmallSize_MouseDown"/>
+            </Grid>
+            <Image  x:Name="image01" Source="{x:Null}"  Margin="0" HorizontalAlignment="Stretch" VerticalAlignment="Top"  />
+        </Grid>
+    </Grid>
+</UserControl>

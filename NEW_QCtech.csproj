@@ -1,0 +1,36 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <OutputType>WinExe</OutputType>
+    <TargetFramework>net10.0-windows</TargetFramework>
+    <Nullable>enable</Nullable>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <UseWPF>true</UseWPF>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <None Remove="Resources\ICON\btn_down.png" />
+    <None Remove="Resources\ICON\btn_Return.png" />
+    <None Remove="Resources\ICON\btn_Start.png" />
+    <None Remove="Resources\ICON\btn_up.png" />
+    <None Remove="Resources\ICON\btn_zero.png" />
+    <None Remove="Resources\ICON\LeftArrow.png" />
+    <None Remove="Resources\ICON\UPgif.gif" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="ScottPlot.WPF" Version="5.1.57" />
+    <PackageReference Include="WpfAnimatedGif" Version="2.0.2" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Resource Include="Resources\ICON\btn_down.png" />
+    <Resource Include="Resources\ICON\btn_Return.png" />
+    <Resource Include="Resources\ICON\btn_Start.png" />
+    <Resource Include="Resources\ICON\btn_up.png" />
+    <Resource Include="Resources\ICON\btn_zero.png" />
+    <Resource Include="Resources\ICON\LeftArrow.png" />
+    <Resource Include="Resources\ICON\UPgif.gif" />
+  </ItemGroup>
+
+</Project>
