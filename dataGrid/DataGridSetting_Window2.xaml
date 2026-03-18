@@ -1,0 +1,240 @@
+﻿<Window x:Class="NEW_QCtech.DataGridSetting_Window2"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        Title="DataGrid Setting" Height="760" Width="1260"
+        WindowStartupLocation="CenterOwner"
+        Loaded="Window_Loaded">
+
+    <Window.Background>
+        <LinearGradientBrush EndPoint="0.5,1" StartPoint="0.5,0">
+            <GradientStop Color="#FF6F4200" Offset="1"/>
+            <GradientStop Color="#FF0B5D08" Offset="0"/>
+            <GradientStop Color="#FF9FA525" Offset="0.475"/>
+        </LinearGradientBrush>
+    </Window.Background>
+
+    <Grid Margin="12">
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="260"/>
+            <ColumnDefinition Width="12"/>
+            <ColumnDefinition Width="1*"/>
+            <ColumnDefinition Width="12"/>
+            <ColumnDefinition Width="320"/>
+        </Grid.ColumnDefinitions>
+
+        <Grid.RowDefinitions>
+            <RowDefinition Height="1*"/>
+            <RowDefinition Height="1*"/>
+            <RowDefinition Height="Auto"/>
+        </Grid.RowDefinitions>
+
+        <!-- 左邊 Tree -->
+        <Border Grid.Column="0" Grid.Row="0" Grid.RowSpan="2" Background="#80222838" CornerRadius="8" Padding="10">
+            <Grid>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="8"/>
+                    <RowDefinition Height="1*"/>
+                    <RowDefinition Height="10"/>
+                    <RowDefinition Height="Auto"/>
+                </Grid.RowDefinitions>
+
+                <TextBlock Text="可選統計樹狀圖"
+                           Foreground="White"
+                           FontSize="30"
+                           FontWeight="Bold"/>
+
+                <TreeView x:Name="treeView"
+                          Grid.Row="2"
+                          Background="#00222838"
+                          Foreground="White"
+                          BorderThickness="0"
+                          SelectedItemChanged="treeView_SelectedItemChanged"
+                          FontSize="25"
+                          MouseDoubleClick="treeView_MouseDoubleClick"/>
+
+                <Button x:Name="btn_add"
+                        Grid.Row="4"
+                        Height="36"
+                        Content="ADD"
+                        Background="#FF3D496B"
+                        Foreground="White"
+                        FontWeight="Bold"
+                        BorderThickness="0"
+                        Click="btn_add_Click"/>
+            </Grid>
+        </Border>
+
+        <!-- 中間預覽 -->
+        <Border Grid.Column="2" Grid.Row="0" Grid.RowSpan="2" Background="#80222838" CornerRadius="8" Padding="10">
+            <Grid>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="*"/>
+                </Grid.RowDefinitions>
+
+                <TextBlock x:Name="txtPreviewTopHint"
+                           Grid.Row="0"
+                           Foreground="Orange"
+                           FontSize="16"
+                           Margin="0,0,0,8"
+                           TextWrapping="Wrap"/>
+
+                <DataGrid x:Name="dg_Preview"
+                          Grid.Row="1"
+                          AutoGenerateColumns="True"
+                          CanUserAddRows="False"
+                          IsReadOnly="True"
+                          HeadersVisibility="Column"
+                          GridLinesVisibility="Horizontal"
+                          RowHeight="28"
+                          ColumnHeaderHeight="34"
+                          Background="{x:Null}"
+                          Foreground="White"
+                          BorderThickness="0"
+                          ScrollViewer.CanContentScroll="True"
+                          ScrollViewer.VerticalScrollBarVisibility="Auto"
+                          ScrollViewer.HorizontalScrollBarVisibility="Auto"
+                          VirtualizingPanel.IsVirtualizing="True"
+                          VirtualizingPanel.VirtualizationMode="Recycling">
+
+                    <DataGrid.RowStyle>
+                        <Style TargetType="DataGridRow">
+                            <Setter Property="Background" Value="Transparent"/>
+                            <Setter Property="Foreground" Value="White"/>
+                            <Setter Property="BorderThickness" Value="0"/>
+                            <Style.Triggers>
+                                <Trigger Property="IsSelected" Value="True">
+                                    <Setter Property="Background" Value="#553D496B"/>
+                                    <Setter Property="Foreground" Value="White"/>
+                                </Trigger>
+                            </Style.Triggers>
+                        </Style>
+                    </DataGrid.RowStyle>
+
+                    <DataGrid.ColumnHeaderStyle>
+                        <Style TargetType="DataGridColumnHeader">
+                            <Setter Property="BorderThickness" Value="0"/>
+                            <Setter Property="VerticalAlignment" Value="Center"/>
+                            <Setter Property="HorizontalContentAlignment" Value="Left"/>
+                            <Setter Property="Background" Value="#FF3D496B"/>
+                            <Setter Property="Foreground" Value="White"/>
+                            <Setter Property="FontWeight" Value="Bold"/>
+                            <Setter Property="Height" Value="35"/>
+                            <Setter Property="FontSize" Value="20"/>
+                            <Setter Property="Padding" Value="0,2,20,2"/>
+                        </Style>
+                    </DataGrid.ColumnHeaderStyle>
+
+                    <DataGrid.CellStyle>
+                        <Style TargetType="DataGridCell">
+                            <Setter Property="Padding" Value="0,2,20,2"/>
+                            <Setter Property="Foreground" Value="White"/>
+                            <Setter Property="Background" Value="Transparent"/>
+                            <Setter Property="BorderThickness" Value="0"/>
+                        </Style>
+                    </DataGrid.CellStyle>
+
+                    <DataGrid.GroupStyle>
+                        <GroupStyle>
+                            <GroupStyle.ContainerStyle>
+                                <Style TargetType="{x:Type GroupItem}">
+                                    <Setter Property="Template">
+                                        <Setter.Value>
+                                            <ControlTemplate TargetType="{x:Type GroupItem}">
+                                                <Expander IsExpanded="True"
+                                                          Margin="0,6,0,6"
+                                                          Foreground="White"
+                                                          Background="#22000000">
+                                                    <Expander.Header>
+                                                        <Border Background="#663D496B"
+                                                                Padding="10,6"
+                                                                CornerRadius="4">
+                                                            <TextBlock Text="{Binding Name}"
+                                                                       Foreground="White"
+                                                                       FontSize="16"
+                                                                       FontWeight="Bold"
+                                                                       TextWrapping="Wrap"/>
+                                                        </Border>
+                                                    </Expander.Header>
+                                                    <ItemsPresenter/>
+                                                </Expander>
+                                            </ControlTemplate>
+                                        </Setter.Value>
+                                    </Setter>
+                                </Style>
+                            </GroupStyle.ContainerStyle>
+                        </GroupStyle>
+                    </DataGrid.GroupStyle>
+                </DataGrid>
+            </Grid>
+        </Border>
+
+        <!-- 右上 grouping -->
+        <Border Grid.Column="4" Grid.Row="0" Background="#80222838" CornerRadius="8" Padding="10" Margin="0,0,0,5">
+            <Grid>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="Auto"/>
+                </Grid.RowDefinitions>
+
+                <CheckBox x:Name="chk_isShow"
+                          Grid.Row="0"
+                          Content="啟用群組功能"
+                          Foreground="White"
+                          FontSize="20"
+                          FontWeight="Bold"
+                          Margin="0,0,0,10"/>
+
+                <WrapPanel Grid.Row="1">
+                    <Label Content="群組條件:"
+                           Foreground="White"
+                           FontSize="20"
+                           VerticalAlignment="Center"/>
+                    <ComboBox x:Name="cb_GroupMode"
+                              Width="190"
+                              Foreground="Black"
+                              FontSize="20"
+                              VerticalAlignment="Center"
+                              Background="White"/>
+                </WrapPanel>
+
+                <WrapPanel x:Name="wp_GroupOptionHost" Grid.Row="2" Margin="0,8,0,0"/>
+            </Grid>
+        </Border>
+
+        <!-- 右下 metrics -->
+        <Border Grid.Column="4" Grid.Row="1" Background="#80222838" CornerRadius="8" Padding="10" Margin="0,5,0,0">
+            <Grid x:Name="grid_MetricHost"/>
+        </Border>
+
+        <!-- 底部按鈕 -->
+        <Border Grid.Column="0" Grid.ColumnSpan="5" Grid.Row="2" Background="#50222838" CornerRadius="8" Padding="10" Margin="0,10,0,0">
+            <DockPanel LastChildFill="False">
+                <Button x:Name="btn_ok"
+                        DockPanel.Dock="Right"
+                        Width="120"
+                        Height="38"
+                        Margin="8,0,0,0"
+                        Content="OK"
+                        Background="#FF3D496B"
+                        Foreground="White"
+                        FontWeight="Bold"
+                        BorderThickness="0"
+                        Click="btn_ok_Click"/>
+
+                <Button x:Name="btn_cancel"
+                        DockPanel.Dock="Right"
+                        Width="120"
+                        Height="38"
+                        Content="Cancel"
+                        Background="#80505050"
+                        Foreground="White"
+                        FontWeight="Bold"
+                        BorderThickness="0"
+                        Click="btn_cancel_Click"/>
+            </DockPanel>
+        </Border>
+    </Grid>
+</Window>

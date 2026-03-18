@@ -45,7 +45,68 @@
                     <Label Grid.Row="0" Content="SPEED"  Margin="5,0,0,0"  Foreground="White"  HorizontalContentAlignment="Center" FontSize="20" BorderThickness="2,2,2,0" BorderBrush="White"/>
 
                     <TextBox x:Name="Textbox_ManualVelocity" Grid.Row="1" HorizontalAlignment="Center" Text="100" Width="100" Height="30" Margin="5,0,0,0"  Background="Transparent" Foreground="White" FontSize="20" HorizontalContentAlignment="Center" BorderThickness="2,0.5,2,0.5" BorderBrush="White"/>
-                    <Slider x:Name="slider_ManualVelocity" Grid.Row="3" Width="100" Height="30" BorderBrush="White" BorderThickness="2,0.5,2,2" Margin="5,0,0,5" VerticalAlignment="Bottom" HorizontalAlignment="Center" HorizontalContentAlignment="Center" Maximum="1000" AutoToolTipPlacement="BottomRight" VerticalContentAlignment="Bottom" ValueChanged="slider_ManualVelocity_ValueChanged" Value="100"/>
+                    <Slider x:Name="slider_ManualVelocity" Grid.Row="3" Width="83" Height="30" 
+                            BorderBrush="White" BorderThickness="2,0.5,2,2" 
+                            VerticalAlignment="Center" HorizontalAlignment="Center" HorizontalContentAlignment="Center" 
+                            Maximum="1000" AutoToolTipPlacement="BottomRight" VerticalContentAlignment="Bottom"
+                            ValueChanged="slider_ManualVelocity_ValueChanged" 
+                            Value="100">
+                        <Slider.Foreground>
+                            <RadialGradientBrush>
+                                <RadialGradientBrush.RelativeTransform>
+                                    <TransformGroup>
+                                        <ScaleTransform CenterY="0.5" CenterX="0.5"/>
+                                        <SkewTransform CenterX="0.5" CenterY="0.5"/>
+                                        <RotateTransform CenterX="0.5" CenterY="0.5"/>
+                                        <TranslateTransform X="0.3" Y="0.3"/>
+                                    </TransformGroup>
+                                </RadialGradientBrush.RelativeTransform>
+                                <GradientStop Color="#FFDCD5D5"/>
+                                <GradientStop Color="#FF32B79C" Offset="1"/>
+                            </RadialGradientBrush>
+                        </Slider.Foreground>
+
+                        <Slider.Template>
+                            <ControlTemplate TargetType="Slider">
+                                <Grid>
+                                    <Track x:Name="PART_Track"
+                       Height="4"
+                       VerticalAlignment="Center">
+
+                                        <!-- 左邊已走過 -->
+                                        <Track.DecreaseRepeatButton>
+                                            <RepeatButton Height="4"
+                                      Background="{TemplateBinding Foreground}"
+                                      BorderThickness="0"
+                                      IsHitTestVisible="False"/>
+                                        </Track.DecreaseRepeatButton>
+
+                                        <!-- 右邊未走過 -->
+                                        <Track.IncreaseRepeatButton>
+                                            <RepeatButton
+                                      Background="{TemplateBinding Background}"
+                                      BorderThickness="0"
+                                      IsHitTestVisible="False" Margin="0,0,0,-9"/>
+                                        </Track.IncreaseRepeatButton>
+
+                                        <!-- 中間圓點 -->
+                                        <Track.Thumb>
+                                            <Thumb Margin="-5,-5,-10,-5">
+                                                <Thumb.Template>
+                                                    <ControlTemplate TargetType="Thumb">
+                                                        <Ellipse Fill="{Binding Foreground, RelativeSource={RelativeSource AncestorType=Slider}}"/>
+                                                    </ControlTemplate>
+                                                </Thumb.Template>
+                                            </Thumb>
+                                        </Track.Thumb>
+
+                                    </Track>
+                                </Grid>
+                            </ControlTemplate>
+                        </Slider.Template>
+
+                    </Slider>
+                    <Rectangle Grid.Row="3" Margin="5,0,0,0" Stroke="White"/>
                     <Label Grid.Row="2" Content="mm/min"  Margin="5,0,0,0"  Foreground="White"  HorizontalContentAlignment="Center" FontSize="20" BorderThickness="2,0,2,0" BorderBrush="White"/>
                 </Grid>
 
@@ -67,16 +128,9 @@
                     <Image Source="{DynamicResource  Icon.BTN_START}"  Width="80" Height="80" Margin="10"/>
                 </Grid>
 
-                <Grid Margin="5,0,0,5" x:Name="grid_More"  MouseDown="grid_More_MouseDown">
-                    <Rectangle  Width="100" Height="50" Fill="#FF32BC6E" RadiusX="14.559" RadiusY="14.559"/>
-                    <TextBlock Text="More..." TextAlignment="Center" HorizontalAlignment="Center" VerticalAlignment="Center" FontSize="26" Foreground="White"/>
-                </Grid>
+                <Grid Margin="5,0,0,5" x:Name="grid_More"  MouseDown="grid_More_MouseDown"/>
 
             </WrapPanel>
-            <Grid x:Name="grid_BackToSmallSize" Margin="0,658,206,0" MouseDown="grid_BackToSmallSize_MouseDown">
-                <Rectangle Fill="#FF32BC6E" RadiusX="5" RadiusY="5" MouseDown="grid_BackToSmallSize_MouseDown" Margin="0,0,0,0"/>
-                <TextBlock Text=">" FontSize="36" Foreground="White" HorizontalAlignment="Center" VerticalAlignment="Center" Margin="0,0,0,0" MouseDown="grid_BackToSmallSize_MouseDown"/>
-            </Grid>
             <Image  x:Name="image01" Source="{x:Null}"  Margin="0" HorizontalAlignment="Stretch" VerticalAlignment="Top"  />
         </Grid>
     </Grid>

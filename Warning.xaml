@@ -1,0 +1,59 @@
+﻿<Page x:Class="NEW_QCtech.Warning"
+      xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+      xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+      Title="Warning" Loaded="Page_Loaded">
+
+    <Grid Background="#0F1B2D">
+
+        <Grid.RowDefinitions>
+            <RowDefinition/>
+            <RowDefinition Height="Auto"/>
+        </Grid.RowDefinitions>
+
+        <!-- 警告內容 -->
+        <ScrollViewer Grid.Row="0"
+                      Margin="0"
+                      Width="800"
+                      Height="500"
+                      HorizontalAlignment="Center"
+                      VerticalAlignment="Center"
+                      VerticalScrollBarVisibility="Auto"
+                      HorizontalScrollBarVisibility="Disabled" ScrollChanged="ScrollViewer_ScrollChanged">
+
+            <TextBlock
+                FontSize="30"
+                FontWeight="Bold"
+                Foreground="Red"
+                TextWrapping="Wrap"
+                Text="警告：請勿在此頁面進行任何操作，否則可能會導致系統不穩定或資料損失！
+警告：請勿在此頁面進行任何操作，否則可能會導致系統不穩定或資料損失！
+警告：請勿在此頁面進行任何操作，否則可能會導致系統不穩定或資料損失！
+警告：請勿在此頁面進行任何操作，否則可能會導致系統不穩定或資料損失！
+警告：請勿在此頁面進行任何操作，否則可能會導致系統不穩定或資料損失！
+警告：請勿在此頁面進行任何操作，否則可能會導致系統不穩定或資料損失！
+                警告：請勿在此頁面進行任何操作，否則可能會導致系統不穩定或資料損失！
+警告：請勿在此頁面進行任何操作，否則可能會導致系統不穩定或資料損失！
+警告：請勿在此頁面進行任何操作，否則可能會導致系統不穩定或資料損失！
+警告：請勿在此頁面進行任何操作，否則可能會導致系統不穩定或資料損失！
+警告：請勿在此頁面進行任何操作，否則可能會導致系統不穩定或資料損失！
+警告：請勿在此頁面進行任何操作，否則可能會導致系統不穩定或資料損失！
+警告：請勿在此頁面進行任何操作，否則可能會導致系統不穩定或資料損失！
+警告：請勿在此頁面進行任何操作，否則可能會導致系統不穩定或資料損失！
+警告：請勿在此頁面進行任何操作，否則可能會導致系統不穩定或資料損失！"/>
+        </ScrollViewer>
+
+        <!-- 下一頁按鈕 -->
+        <Button x:Name="btn_next" Grid.Row="1"
+                Content="我已詳閱並同意以上條款"
+                Width="250"
+                Height="50"
+                HorizontalAlignment="Center"
+                Margin="0,0,0,40"
+                FontSize="20"
+                Background="#1B9E35"
+                Foreground="White"
+                BorderBrush="#27C9E8"
+                BorderThickness="2"
+                Click="Button_Click"/>
+    </Grid>
+</Page>

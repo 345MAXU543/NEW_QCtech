@@ -1,0 +1,25 @@
+﻿<Window x:Class="NEW_QCtech.colorPicker"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:pixi="clr-namespace:ColorPicker;assembly=ColorPicker"
+        xmlns:local="clr-namespace:NEW_QCtech"
+        mc:Ignorable="d"
+        Title="colorPicker" Height="450" Width="230" Background="#FF2F2D2D" Topmost="True" WindowStartupLocation="CenterScreen" >
+    <Viewbox Stretch="Fill">
+        <Grid Margin="10">
+            <StackPanel>
+                <pixi:StandardColorPicker  x:Name="picker"
+                  VerticalAlignment="Stretch"
+                  HorizontalAlignment="Stretch"/>
+                <Button Content="OK"
+        VerticalAlignment="Bottom"
+        Height="30"
+        Margin="10,0,10,10"
+        Click="Ok_Click"/>
+            </StackPanel>
+
+        </Grid>
+    </Viewbox>
+</Window>

@@ -21,11 +21,15 @@ namespace NEW_QCtech
     /// </summary>
     public partial class UserControl_ControlPanel : UserControl
     {
-        private readonly MainWindow _mainWindow;
+       // private readonly MainWindow _mainWindow;
+        public static UserControl_ControlPanel _ControlPanel;
+        
         public UserControl_ControlPanel()
         {
             InitializeComponent();
-            _mainWindow = Application.Current.MainWindow as MainWindow;
+           MainWindow. _mainWindow = Application.Current.MainWindow as MainWindow;
+            _ControlPanel = this;
+
         }
 
         //GIF播放(UP按鈕)
@@ -35,7 +39,7 @@ namespace NEW_QCtech
             image01.Stretch = Stretch.Fill;
             Mouse.Capture(grid_btnUP);
 
-            _mainWindow.Change_MainWindow_PeripheryGrid_Color(MainWindow.MachineStatus.MOTOR_MOVING);
+            MainWindow._mainWindow.Change_MainWindow_PeripheryGrid_Color(MainWindow.MachineStatus.MOTOR_MOVING);
         }
 
         //GIF停止播放(在GIF上放開滑鼠)
@@ -51,18 +55,37 @@ namespace NEW_QCtech
             ImageBehavior.SetAnimatedSource(image01, null);
 
             // 變回狀態
-            _mainWindow.Change_MainWindow_PeripheryGrid_Color(
+            MainWindow._mainWindow.Change_MainWindow_PeripheryGrid_Color(
                 MainWindow.MachineStatus.MOTOR_IDLE);
 
             // ⭐釋放滑鼠
             Mouse.Capture(null);
         }
+        public static string CtrlUI_status = "Collapse";
 
+        public void StretchControlPanelUI()
+        {
+            if (CtrlUI_status == "Collapse")
+            {
+                this.Width = this.ActualWidth * 4;
+                grid_More.Visibility = Visibility.Hidden;
+                grid_01.Visibility = Visibility.Visible;
+                grid_02.Visibility = Visibility.Visible;
+                CtrlUI_status = "Expand";
+            }
+            else if (CtrlUI_status == "Expand")
+            {
+                this.Width = grid_btnUP.ActualWidth * 1.1;
+                grid_More.Visibility = Visibility.Visible;
+                grid_01.Visibility = Visibility.Collapsed;
+                grid_02.Visibility = Visibility.Collapsed;
+                CtrlUI_status = "Collapse";
+            }
+        }
         private void grid_More_MouseDown(object sender, MouseButtonEventArgs e)
         {
             this.Width = this.ActualWidth * 4;
             grid_More.Visibility = Visibility.Hidden;
-            grid_BackToSmallSize.Visibility = Visibility.Visible;
 
             grid_01.Visibility = Visibility.Visible;
             grid_02.Visibility = Visibility.Visible;
@@ -72,7 +95,6 @@ namespace NEW_QCtech
         {
             this.Width = grid_btnUP.ActualWidth * 1.1;
             grid_More.Visibility = Visibility.Visible;
-            grid_BackToSmallSize.Visibility = Visibility.Hidden;
 
             grid_01.Visibility = Visibility.Collapsed;
             grid_02.Visibility = Visibility.Collapsed;
@@ -82,7 +104,6 @@ namespace NEW_QCtech
         {
             this.Width = grid_btnUP.ActualWidth * 1.1;
             grid_More.Visibility = Visibility.Visible;
-            grid_BackToSmallSize.Visibility = Visibility.Hidden;
 
             grid_01.Visibility = Visibility.Collapsed;
             grid_02.Visibility = Visibility.Collapsed;

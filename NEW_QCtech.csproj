@@ -9,6 +9,9 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <None Remove="13.png" />
+    <None Remove="CompnyTrand.png" />
+    <None Remove="MainPageBG.png" />
     <None Remove="Resources\ICON\btn_down.png" />
     <None Remove="Resources\ICON\btn_Return.png" />
     <None Remove="Resources\ICON\btn_Start.png" />
@@ -16,14 +19,19 @@
     <None Remove="Resources\ICON\btn_zero.png" />
     <None Remove="Resources\ICON\LeftArrow.png" />
     <None Remove="Resources\ICON\UPgif.gif" />
+    <None Remove="未命名.png" />
   </ItemGroup>
 
   <ItemGroup>
+    <PackageReference Include="PixiEditor.ColorPicker" Version="3.4.2.2" />
     <PackageReference Include="ScottPlot.WPF" Version="5.1.57" />
     <PackageReference Include="WpfAnimatedGif" Version="2.0.2" />
   </ItemGroup>
 
   <ItemGroup>
+    <Resource Include="13.png" />
+    <Resource Include="CompnyTrand.png" />
+    <Resource Include="MainPageBG.png" />
     <Resource Include="Resources\ICON\btn_down.png" />
     <Resource Include="Resources\ICON\btn_Return.png" />
     <Resource Include="Resources\ICON\btn_Start.png" />
@@ -31,6 +39,18 @@
     <Resource Include="Resources\ICON\btn_zero.png" />
     <Resource Include="Resources\ICON\LeftArrow.png" />
     <Resource Include="Resources\ICON\UPgif.gif" />
+    <Resource Include="未命名.png" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Folder Include="Modules\" />
+    <Folder Include="Page\" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Compile Update="dataGrid\DataGridSetting_Window2.xaml.cs">
+      <SubType>Code</SubType>
+    </Compile>
   </ItemGroup>
 
 </Project>

@@ -7,7 +7,7 @@
         xmlns:shell="clr-namespace:System.Windows.Shell;assembly=PresentationFramework"
         xmlns:ScottPlot="clr-namespace:ScottPlot.WPF;assembly=ScottPlot.WPF"
         mc:Ignorable="d"
-        Title="MainWindow" Height="900" Width="1600" WindowStartupLocation="CenterScreen" WindowStyle="None" ResizeMode="CanResize" Loaded="Window_Loaded">
+        Title="MainWindow" Height="1000" Width="1600" WindowStartupLocation="CenterScreen" WindowStyle="None" ResizeMode="CanResize" Loaded="Window_Loaded" MouseMove="Window_MouseMove">
 
     <shell:WindowChrome.WindowChrome>
         <shell:WindowChrome
@@ -17,6 +17,15 @@
         GlassFrameThickness="0"
         UseAeroCaptionButtons="False"/>
     </shell:WindowChrome.WindowChrome>
+    <Window.Resources>
+        <ContextMenu x:Key="PlotContextMenu">
+            <MenuItem Header="曲線圖設定" />
+        </ContextMenu>
+
+        <ContextMenu x:Key="CardsPanelContextMenu">
+            <MenuItem Header="數據顯示卡設定"  Click="CardsPanel_Setting"/>
+        </ContextMenu>
+    </Window.Resources>
 
 
     <Grid x:Name="MainWindow_PeripheryGrid" Background="#FF5696AB">
@@ -48,7 +57,7 @@
 
         <Label x:Name="label_Alert"
                Grid.Row="0" Grid.Column="0" Grid.RowSpan="1" Grid.ColumnSpan="2"
-               Content="警告訊息 或是 狀態" FontSize="16"  Background="Transparent" Margin="0,0,339,3" MouseDown="label_Alert_MouseDown" MouseMove="label_Alert_MouseMove"/>
+               Content="警告訊息 或是 狀態" FontSize="16"  Background="Transparent" Margin="0,0,0,3"  MouseMove="label_Alert_MouseMove"/>
 
         <!--新增檔案 儲存 另存新檔 開啟檔案 最小化 最大化 叉叉控制箱-->
         <Border Grid.Column="2" Grid.ColumnSpan="1" Background="#FF65735F"  Grid.Row="0" Margin="0,5,0,0" MinWidth="160">
@@ -82,8 +91,26 @@
                 <Button Grid.Column="2" Content="🗄" FontSize="20" Width="40" Height="30" Background="Transparent" Foreground="White" BorderBrush="#FFB2CBF6" HorizontalAlignment="Left" BorderThickness="1,1,1,0" />
                 <Button Grid.Column="3" Content="📂" FontSize="20" Width="40" Height="30" Background="Transparent" Foreground="White" BorderBrush="#FFB2CBF6" HorizontalAlignment="Left" BorderThickness="1,1,1,0" />
 
-                <Rectangle Grid.Column="4"  Height="20"   Fill="Transparent"  HorizontalAlignment="Stretch"  VerticalAlignment="Center" />
-                <Button Grid.Column="5" Content="S" FontSize="20" Width="40" Height="30" Background="Transparent" Foreground="White" BorderBrush="#FFB2CBF6" HorizontalAlignment="Right" BorderThickness="1,1,1,0"/>
+                <Grid Grid.Column ="4" Height="30" Margin="5,0,0,0">
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="1*"/>
+                        <RowDefinition Height="1*"/>
+                    </Grid.RowDefinitions>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="Auto"/>
+                        <ColumnDefinition Width="Auto"/>
+                        <ColumnDefinition Width="Auto"/>
+                        <ColumnDefinition Width="Auto"/>
+                    </Grid.ColumnDefinitions>
+
+                    <Image x:Name="Image_CompanyTrademark" Grid.Column="0" Grid.Row="0" Grid.RowSpan="2"  Height="30" Width="30"  VerticalAlignment="Center" Source="/13.png" Stretch="Fill" RenderTransformOrigin="0.5,0.5" HorizontalAlignment="Left" />
+                    <Label  Grid.Column="1" Grid.Row="0" Grid.RowSpan="2" Content="Yang YI" FontSize="16" FontWeight="Bold" Foreground="White" HorizontalAlignment="Left" VerticalAlignment="Center" Margin="5,0,0,0" Padding="0,0,0,0"/>
+                    <Label Grid.Column="3" Grid.Row="1" Content="technology" FontSize="10" Foreground="White" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="5,0,0,0" Padding="0,0,0,0"/>
+
+
+                </Grid>
+
+                <Button x:Name="btn_GlobalSetting" Grid.Column="5" Content="S" FontSize="20" Width="40" Height="30" Background="Transparent" Foreground="White" BorderBrush="#FFB2CBF6" HorizontalAlignment="Right" BorderThickness="1,1,1,0" Click="btn_GlobalSetting_Click"/>
                 <Button Grid.Column="6" Content="🗕" FontSize="20" Width="40" Height="30" Background="Transparent" Foreground="White" BorderBrush="#FFB2CBF6" HorizontalAlignment="Right" BorderThickness="1,1,1,0" Click="MinimizeButton_Click"/>
                 <Button Grid.Column="7" Content="🗗" FontSize="20" Width="40" Height="30" Background="Transparent" Foreground="White" BorderBrush="#FFB2CBF6" HorizontalAlignment="Right" BorderThickness="1,1,1,0" Click="RestoreDownButton_Click"/>
                 <Button Grid.Column="8" Content="✕" FontSize="20" Width="40" Height="30" Background="Transparent" Foreground="White" BorderBrush="#FFB2CBF6" HorizontalAlignment="Right" BorderThickness="1,1,1,0" Click="CloseButton_Click"/>
@@ -92,7 +119,7 @@
 
         <!--放即時資訊-->
         <Border Grid.Row="1" Grid.ColumnSpan="3" Background="#FF4B4B52" Margin="10,0,0,0">
-            <ScrollViewer HorizontalScrollBarVisibility="Auto"
+            <ScrollViewer HorizontalScrollBarVisibility="Auto" AllowDrop="True"
                   VerticalScrollBarVisibility="Disabled" Margin="0,0,0,0">
                 <ScrollViewer.Background>
                     <LinearGradientBrush EndPoint="0.5,1" StartPoint="0.5,0">
@@ -103,36 +130,253 @@
                         <GradientStop Color="#FF3A4560" Offset="1.0"/>
                     </LinearGradientBrush>
                 </ScrollViewer.Background>
-                <WrapPanel Orientation="Horizontal" HorizontalAlignment="Left" VerticalAlignment="Center"  >
-                    <Grid  Margin="10,0,0,0">
-                        <Grid.Effect>
-                            <DropShadowEffect ShadowDepth="10"/>
-                        </Grid.Effect>
-                        <Grid.RowDefinitions>
-                            <RowDefinition Height="25*"/>
-                            <RowDefinition Height="63*"/>
-                            <RowDefinition Height="25*"/>
-                        </Grid.RowDefinitions>
-                        <Label Grid.Row="0" Content="Load" FontSize="40" Foreground="White" Padding="0,0,0,0" VerticalContentAlignment="Center" HorizontalContentAlignment="Center" Background="#FF3C6F3E" FontWeight="Bold" />
-                        <Label Grid.Row="1" Content="1000000.000" FontSize="50" Foreground="White" Padding="0,0,0,0" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" Background="#FF315A33" />
-                        <Label Grid.Row="2" Content="kgf" FontSize="40" Foreground="White" VerticalContentAlignment="Center" HorizontalContentAlignment="Right" Padding="0,0,0,0" Background="#FF223823"/>
-                    </Grid>
+                <WrapPanel x:Name="CardsPanel" Orientation="Horizontal" HorizontalAlignment="Left" VerticalAlignment="Center"  
+                            AllowDrop="True"
+           PreviewMouseLeftButtonDown="CardsPanel_PreviewMouseLeftButtonDown"
+           PreviewMouseMove="CardsPanel_PreviewMouseMove"
+           DragOver="CardsPanel_DragOver"
+           Drop="CardsPanel_Drop" ContextMenu="{StaticResource CardsPanelContextMenu}">
+                    <Border Margin="0" Tag="Card" Background="Transparent">
+                        <Viewbox>
+                            <Grid Margin="10" Width="350" Height="130">
+                                <!-- 陰影 -->
+                                <Grid.Effect>
+                                    <DropShadowEffect ShadowDepth="15" BlurRadius="15" Opacity="0.4"/>
+                                </Grid.Effect>
 
-                    <Grid  Margin="10,0,0,0">
-                        <Grid.Effect>
-                            <DropShadowEffect ShadowDepth="10"/>
-                        </Grid.Effect>
-                        <Grid.RowDefinitions>
-                            <RowDefinition Height="25*"/>
-                            <RowDefinition Height="63*"/>
-                            <RowDefinition Height="25*"/>
-                        </Grid.RowDefinitions>
-                        <Label Grid.Row="0" Content="Velocity" FontSize="40" Foreground="White" Padding="0,0,0,0" VerticalContentAlignment="Center" HorizontalContentAlignment="Center" Background="#FF3C6F3E" FontWeight="Bold" />
-                        <Label Grid.Row="1" Content="1000000.000" FontSize="50" Foreground="White" Padding="0,0,0,0" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" Background="#FF315A33" />
-                        <Label Grid.Row="2" Content="kgf" FontSize="40" Foreground="White" VerticalContentAlignment="Center" HorizontalContentAlignment="Right" Padding="0,0,0,0" Background="#FF223823"/>
-                    </Grid>
+                                <!-- 版面 -->
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="3*"/>
+                                    <ColumnDefinition Width="1*"/>
+                                </Grid.ColumnDefinitions>
+                                <Grid.RowDefinitions>
+                                    <RowDefinition Height="2*"/>
+                                    <RowDefinition Height="1*"/>
+                                </Grid.RowDefinitions>
+
+                                <!-- 背景（整張卡） -->
+                                <Grid
+Grid.RowSpan="2"
+Grid.ColumnSpan="3">
+                                    <Grid.Background>
+                                        <LinearGradientBrush EndPoint="0.5,1" StartPoint="0.5,0">
+                                            <LinearGradientBrush.RelativeTransform>
+                                                <TransformGroup>
+                                                    <ScaleTransform CenterY="0.5" CenterX="0.5"/>
+                                                    <SkewTransform CenterX="0.5" CenterY="0.5"/>
+                                                    <RotateTransform Angle="-45" CenterX="0.5" CenterY="0.5"/>
+                                                    <TranslateTransform/>
+                                                </TransformGroup>
+                                            </LinearGradientBrush.RelativeTransform>
+                                            <GradientStop Color="#FF0A5400"/>
+                                            <GradientStop Color="#FF49A23D" Offset="1"/>
+                                        </LinearGradientBrush>
+                                    </Grid.Background>
+                                </Grid>
+
+                                <!-- 大數字 -->
+                                <Viewbox Grid.Row="0" Grid.Column="0" Grid.ColumnSpan="2" HorizontalAlignment="Left">
+                                    <Label Grid.Row="0" Grid.Column="0" Content="00" FontWeight="Bold" Foreground="White" Padding="2,0,2,0"/>
+                                </Viewbox>
+
+                                <!-- 小標題 -->
+                                <Viewbox  Grid.Row="1" Grid.Column="0" HorizontalAlignment="Left">
+                                    <Label Content="Axie1 Position(mm)" Foreground="White" Padding="5,0,0,0"/>
+                                </Viewbox>
 
 
+                                <!-- 右側圖示（最簡單：Emoji） -->
+                                <Label Grid.RowSpan="2" Grid.Column="2"
+ Content="🏋️"
+ FontSize="40"
+ Foreground="White"
+ HorizontalContentAlignment="Center"
+ VerticalContentAlignment="Bottom"/>
+                            </Grid>
+                        </Viewbox>
+                    </Border>
+
+                    <Border Margin="0" Tag="Card" Background="Transparent">
+                        <Viewbox>
+                            <Grid Margin="10" Width="350" Height="130">
+                                <!-- 陰影 -->
+                                <Grid.Effect>
+                                    <DropShadowEffect ShadowDepth="15" BlurRadius="15" Opacity="0.4"/>
+                                </Grid.Effect>
+
+                                <!-- 版面 -->
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="3*"/>
+                                    <ColumnDefinition Width="1*"/>
+                                </Grid.ColumnDefinitions>
+                                <Grid.RowDefinitions>
+                                    <RowDefinition Height="2*"/>
+                                    <RowDefinition Height="1*"/>
+                                </Grid.RowDefinitions>
+
+                                <!-- 背景（整張卡） -->
+                                <Grid
+Grid.RowSpan="2"
+Grid.ColumnSpan="3">
+                                    <Grid.Background>
+                                        <LinearGradientBrush EndPoint="0.5,1" StartPoint="0.5,0">
+                                            <LinearGradientBrush.RelativeTransform>
+                                                <TransformGroup>
+                                                    <ScaleTransform CenterY="0.5" CenterX="0.5"/>
+                                                    <SkewTransform CenterX="0.5" CenterY="0.5"/>
+                                                    <RotateTransform Angle="-45" CenterX="0.5" CenterY="0.5"/>
+                                                    <TranslateTransform/>
+                                                </TransformGroup>
+                                            </LinearGradientBrush.RelativeTransform>
+                                            <GradientStop Color="#FF0A5400"/>
+                                            <GradientStop Color="#FF49A23D" Offset="1"/>
+                                        </LinearGradientBrush>
+                                    </Grid.Background>
+                                </Grid>
+
+                                <!-- 大數字 -->
+                                <Viewbox Grid.Row="0" Grid.Column="0" Grid.ColumnSpan="2" HorizontalAlignment="Left">
+                                    <Label Grid.Row="0" Grid.Column="0" Content="00,0.0000000" FontWeight="Bold" Foreground="White" Padding="2,0,2,0"/>
+                                </Viewbox>
+
+                                <!-- 小標題 -->
+                                <Viewbox  Grid.Row="1" Grid.Column="0" HorizontalAlignment="Left">
+                                    <Label Content="Axie2 Position(mm)" Foreground="White" Padding="5,0,0,0"/>
+                                </Viewbox>
+
+
+                                <!-- 右側圖示（最簡單：Emoji） -->
+                                <Label Grid.RowSpan="2" Grid.Column="2"
+ Content="🏋️"
+ FontSize="40"
+ Foreground="White"
+ HorizontalContentAlignment="Center"
+ VerticalContentAlignment="Bottom"/>
+                            </Grid>
+                        </Viewbox>
+                    </Border>
+
+
+                    <Border Margin="0" Tag="Card" Background="Transparent">
+                        <Viewbox>
+                            <Grid Margin="10" Width="350" Height="130">
+                                <!-- 陰影 -->
+                                <Grid.Effect>
+                                    <DropShadowEffect ShadowDepth="15" BlurRadius="15" Opacity="0.4"/>
+                                </Grid.Effect>
+
+                                <!-- 版面 -->
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="3*"/>
+                                    <ColumnDefinition Width="1*"/>
+                                </Grid.ColumnDefinitions>
+                                <Grid.RowDefinitions>
+                                    <RowDefinition Height="2*"/>
+                                    <RowDefinition Height="1*"/>
+                                </Grid.RowDefinitions>
+
+                                <!-- 背景（整張卡） -->
+                                <Grid
+Grid.RowSpan="2"
+Grid.ColumnSpan="3">
+                                    <Grid.Background>
+                                        <LinearGradientBrush EndPoint="0.5,1" StartPoint="0.5,0">
+                                            <LinearGradientBrush.RelativeTransform>
+                                                <TransformGroup>
+                                                    <ScaleTransform CenterY="0.5" CenterX="0.5"/>
+                                                    <SkewTransform CenterX="0.5" CenterY="0.5"/>
+                                                    <RotateTransform Angle="-45" CenterX="0.5" CenterY="0.5"/>
+                                                    <TranslateTransform/>
+                                                </TransformGroup>
+                                            </LinearGradientBrush.RelativeTransform>
+                                            <GradientStop Color="#FF0A5400"/>
+                                            <GradientStop Color="#FF49A23D" Offset="1"/>
+                                        </LinearGradientBrush>
+                                    </Grid.Background>
+                                </Grid>
+
+                                <!-- 大數字 -->
+                                <Viewbox Grid.Row="0" Grid.Column="0" Grid.ColumnSpan="2" HorizontalAlignment="Left">
+                                    <Label Grid.Row="0" Grid.Column="0" Content="00,0.0000000" FontWeight="Bold" Foreground="White" Padding="2,0,2,0"/>
+                                </Viewbox>
+
+                                <!-- 小標題 -->
+                                <Viewbox  Grid.Row="1" Grid.Column="0" HorizontalAlignment="Left">
+                                    <Label Content="Axie2 Position(mm)" Foreground="White" Padding="5,0,0,0"/>
+                                </Viewbox>
+
+
+                                <!-- 右側圖示（最簡單：Emoji） -->
+                                <Label Grid.RowSpan="2" Grid.Column="2"
+ Content="🏋️"
+ FontSize="40"
+ Foreground="White"
+ HorizontalContentAlignment="Center"
+ VerticalContentAlignment="Bottom"/>
+                            </Grid>
+                        </Viewbox>
+                    </Border>
+
+
+                    <Border Margin="0" Tag="Card" Background="Transparent">
+                        <Viewbox>
+                            <Grid Margin="10" Width="350" Height="130">
+                                <!-- 陰影 -->
+                                <Grid.Effect>
+                                    <DropShadowEffect ShadowDepth="15" BlurRadius="15" Opacity="0.4"/>
+                                </Grid.Effect>
+
+                                <!-- 版面 -->
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="3*"/>
+                                    <ColumnDefinition Width="1*"/>
+                                </Grid.ColumnDefinitions>
+                                <Grid.RowDefinitions>
+                                    <RowDefinition Height="2*"/>
+                                    <RowDefinition Height="1*"/>
+                                </Grid.RowDefinitions>
+
+                                <!-- 背景（整張卡） -->
+                                <Grid
+Grid.RowSpan="2"
+Grid.ColumnSpan="3">
+                                    <Grid.Background>
+                                        <LinearGradientBrush EndPoint="0.5,1" StartPoint="0.5,0">
+                                            <LinearGradientBrush.RelativeTransform>
+                                                <TransformGroup>
+                                                    <ScaleTransform CenterY="0.5" CenterX="0.5"/>
+                                                    <SkewTransform CenterX="0.5" CenterY="0.5"/>
+                                                    <RotateTransform Angle="-45" CenterX="0.5" CenterY="0.5"/>
+                                                    <TranslateTransform/>
+                                                </TransformGroup>
+                                            </LinearGradientBrush.RelativeTransform>
+                                            <GradientStop Color="#FF0A5400"/>
+                                            <GradientStop Color="#FF49A23D" Offset="1"/>
+                                        </LinearGradientBrush>
+                                    </Grid.Background>
+                                </Grid>
+
+                                <!-- 大數字 -->
+                                <Viewbox Grid.Row="0" Grid.Column="0" Grid.ColumnSpan="2" HorizontalAlignment="Left">
+                                    <Label Grid.Row="0" Grid.Column="0" Content="00,0.0000000" FontWeight="Bold" Foreground="White" Padding="2,0,2,0"/>
+                                </Viewbox>
+
+                                <!-- 小標題 -->
+                                <Viewbox  Grid.Row="1" Grid.Column="0" HorizontalAlignment="Left">
+                                    <Label Content="Axie2 Position(mm)" Foreground="White" Padding="5,0,0,0"/>
+                                </Viewbox>
+
+
+                                <!-- 右側圖示（最簡單：Emoji） -->
+                                <Label Grid.RowSpan="2" Grid.Column="2"
+ Content="🏋️"
+ FontSize="40"
+ Foreground="White"
+ HorizontalContentAlignment="Center"
+ VerticalContentAlignment="Bottom"/>
+                            </Grid>
+                        </Viewbox>
+                    </Border>
 
 
                 </WrapPanel>
@@ -142,7 +386,7 @@
         <GridSplitter Grid.Row="2"  HorizontalAlignment="Stretch" Grid.ColumnSpan="3" Margin="10
 ,0,0,0" Grid.RowSpan="1" >
             <GridSplitter.Background>
-                <LinearGradientBrush EndPoint="0.5,1" StartPoint="0.5,0">
+                <LinearGradientBrush EndPoint="0.5,1" StartPoint="0.5,0" Opacity="0.5">
                     <LinearGradientBrush.RelativeTransform>
                         <TransformGroup>
                             <ScaleTransform CenterY="0.5" CenterX="0.5"/>
@@ -173,9 +417,21 @@
                     <RowDefinition Height="40*"/>
                 </Grid.RowDefinitions>
 
-                <GridSplitter Grid.Row="1" Grid.Column="2" Grid.ColumnSpan="1" HorizontalAlignment="Stretch" Height="3"/>
-                <GridSplitter Grid.Row="0" Grid.Column="1" Grid.ColumnSpan="1" Grid.RowSpan="3" HorizontalAlignment="Stretch" Width="3"/>
-                <GridSplitter Grid.Row="0" Grid.Column="3" Grid.ColumnSpan="1" Grid.RowSpan="3" HorizontalAlignment="Stretch" Width="3"/>
+                <GridSplitter Grid.Row="1" Grid.Column="2" Grid.ColumnSpan="1" HorizontalAlignment="Stretch" Height="3" Foreground="{x:Null}">
+                    <GridSplitter.Background>
+                        <SolidColorBrush Color="#FFF0F0F0" Opacity="0.5"/>
+                    </GridSplitter.Background>
+                </GridSplitter>
+                <GridSplitter Grid.Row="0" Grid.Column="1" Grid.ColumnSpan="1" Grid.RowSpan="3" HorizontalAlignment="Stretch" Width="3">
+                    <GridSplitter.Background>
+                        <SolidColorBrush Color="#FFF0F0F0" Opacity="0.5"/>
+                    </GridSplitter.Background>
+                </GridSplitter>
+                <GridSplitter Name="GS_Left" Grid.Row="0" Grid.Column="3" Grid.ColumnSpan="1" Grid.RowSpan="3" HorizontalAlignment="Stretch" Width="3">
+                    <GridSplitter.Background>
+                        <SolidColorBrush Color="#FFF0F0F0" Opacity="0.5"/>
+                    </GridSplitter.Background>
+                </GridSplitter>
 
                 <Grid Grid.Row="0" Grid.Column="0" Grid.ColumnSpan="1" Grid.RowSpan="3">
                     <Grid.RowDefinitions>
@@ -193,6 +449,17 @@
                             <TextBlock Text="X" Foreground="White" HorizontalAlignment="Center" VerticalAlignment="Center" FontSize="20">
                             </TextBlock>
                         </Border>
+                        <Border Margin="5,0,-0.4,0" CornerRadius="7,7,0,0" Height="25" Width="40" MouseEnter="borderRemove_MouseEnter" MouseLeave="borderRemove_MouseLeave">
+                            <Border.Background>
+                                <LinearGradientBrush EndPoint="0.5,1" StartPoint="0.5,0">
+                                    <GradientStop Color="#FF98BAFF"/>
+                                    <GradientStop Color="#FF1B2C5A" Offset="1"/>
+                                </LinearGradientBrush>
+                            </Border.Background>
+                            <TextBlock Text="🔧" Foreground="White" HorizontalAlignment="Center" VerticalAlignment="Center" FontSize="20">
+                            </TextBlock>
+                        </Border>
+
 
 
                     </WrapPanel>
@@ -229,18 +496,146 @@
 
                 <ContentControl x:Name="MW_ContentControl" 
                                 Grid.Row="0" Grid.Column="4" Grid.ColumnSpan="1" Grid.RowSpan="3" 
-                                Margin="0,5,0,0" Background="#FF222838" Foreground="White" HorizontalAlignment="Stretch" HorizontalContentAlignment="Stretch"/>
+                                Margin="0,5,0,0" Background="#FF222838" Foreground="White" HorizontalAlignment="Stretch" HorizontalContentAlignment="Stretch" />
 
-                <ScottPlot:WpfPlot  x:Name="WpfPlot1" Margin="0" Grid.Row="0" Grid.Column="2" 
-                                    VerticalAlignment="Stretch" HorizontalAlignment="Stretch" 
-                                    Background="Black" Foreground="White">
-                </ScottPlot:WpfPlot>
 
+                <Grid x:Name="plotGrid" Margin="0" Grid.Row="0" Grid.Column="2" >
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="*"/>
+                    </Grid.RowDefinitions>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="1*"/>
+                        <ColumnDefinition Width="auto"/>
+                        <ColumnDefinition Width="1*"/>
+                    </Grid.ColumnDefinitions>
+
+                    <Grid Grid.Column="0">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="1*"/>
+                            <ColumnDefinition Width="auto"/>
+                        </Grid.ColumnDefinitions>
+                        <WrapPanel Grid.Row="0" Grid.Column="0" FlowDirection="LeftToRight">
+                            <Button x:Name="btn_leftPlot1" Grid.Row="0" Grid.Column="0" Content=" 單線檢視 " FontSize="20" Height="25" 
+Background="Transparent" Foreground="White" BorderBrush="#FFB2CBF6"  BorderThickness="1,1,1,0" Click="plotTabChange" />
+                            <Button x:Name="btn_leftPlot2" Grid.Row="0" Grid.Column="0" Content=" 多線檢視 " FontSize="20" Height="25" 
+Background="Transparent" Foreground="White" BorderBrush="#FFB2CBF6"  BorderThickness="1,1,1,0" Click="plotTabChange" />
+                            <Button x:Name="btn_leftPlot3" Grid.Row="0" Grid.Column="0" Content=" 柱狀圖 " FontSize="20" Height="25" 
+Background="Transparent" Foreground="White" BorderBrush="#FFB2CBF6"  BorderThickness="1,1,1,0" Click="plotTabChange" />
+                        </WrapPanel>
+
+                        <WrapPanel Grid.Row="0" Grid.Column="1" FlowDirection="RightToLeft" >
+                            <Border x:Name="btn_ClosePlot" HorizontalAlignment="Left" CornerRadius="7,7,0,0" Height="25" Width="40" 
+                        MouseEnter="borderRemove_MouseEnter" MouseLeave="borderRemove_MouseLeave" Margin="0,0,5,0">
+                                <Border.Background>
+                                    <LinearGradientBrush EndPoint="0.5,1" StartPoint="0.5,0">
+                                        <GradientStop Color="#FF98BAFF"/>
+                                        <GradientStop Color="#FF1B2C5A" Offset="1"/>
+                                    </LinearGradientBrush>
+                                </Border.Background>
+                                <TextBlock Text="X" Foreground="White" HorizontalAlignment="Center" VerticalAlignment="Center" FontSize="20">
+                                </TextBlock>
+                            </Border>
+                            <Border x:Name="PlotSetting" Margin="0,0,0,0" CornerRadius="7,7,0,0" Height="25" Width="40" 
+                        MouseEnter="borderRemove_MouseEnter" MouseLeave="borderRemove_MouseLeave" MouseDown="PlotSetting_MouseDown">
+                                <Border.Background>
+                                    <LinearGradientBrush EndPoint="0.5,1" StartPoint="0.5,0">
+                                        <GradientStop Color="#FF98BAFF"/>
+                                        <GradientStop Color="#FF1B2C5A" Offset="1"/>
+                                    </LinearGradientBrush>
+                                </Border.Background>
+                                <TextBlock Text="🔧" Foreground="White" HorizontalAlignment="Center" VerticalAlignment="Bottom" FontSize="20">
+                                </TextBlock>
+                            </Border>
+                        </WrapPanel>
+                    </Grid>
+
+                    <Grid Grid.Column="2">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="1*"/>
+                            <ColumnDefinition Width="auto"/>
+                        </Grid.ColumnDefinitions>
+                        <WrapPanel Grid.Row="0" Grid.Column="0" FlowDirection="LeftToRight">
+                            <Button x:Name="btn_RightPlot1" Grid.Row="0" Grid.Column="0" Content=" 單線檢視 " FontSize="20" Height="25" 
+Background="Transparent" Foreground="White" BorderBrush="#FFB2CBF6"  BorderThickness="1,1,1,0" Click="plotTabChange" />
+                            <Button x:Name="btn_RightPlot2" Grid.Row="0" Grid.Column="0" Content=" 多線檢視 " FontSize="20" Height="25" 
+Background="Transparent" Foreground="White" BorderBrush="#FFB2CBF6"  BorderThickness="1,1,1,0" Click="plotTabChange" />
+                            <Button x:Name="btn_RightPlot3" Grid.Row="0" Grid.Column="0" Content=" 柱狀圖 " FontSize="20" Height="25" 
+Background="Transparent" Foreground="White" BorderBrush="#FFB2CBF6"  BorderThickness="1,1,1,0" Click="plotTabChange" />
+                        </WrapPanel>
+
+                        <WrapPanel Grid.Row="0" Grid.Column="1" FlowDirection="RightToLeft" >
+                            <Border x:Name="btn_ClosePlot2" HorizontalAlignment="Left" CornerRadius="7,7,0,0" Height="25" Width="40" 
+MouseEnter="borderRemove_MouseEnter" MouseLeave="borderRemove_MouseLeave" Margin="0,0,5,0">
+                                <Border.Background>
+                                    <LinearGradientBrush EndPoint="0.5,1" StartPoint="0.5,0">
+                                        <GradientStop Color="#FF98BAFF"/>
+                                        <GradientStop Color="#FF1B2C5A" Offset="1"/>
+                                    </LinearGradientBrush>
+                                </Border.Background>
+                                <TextBlock Text="X" Foreground="White" HorizontalAlignment="Center" VerticalAlignment="Center" FontSize="20">
+                                </TextBlock>
+                            </Border>
+                            <Border x:Name="PlotSetting2" Margin="0,0,0,0" CornerRadius="7,7,0,0" Height="25" Width="40" 
+MouseEnter="borderRemove_MouseEnter" MouseLeave="borderRemove_MouseLeave" MouseDown="PlotSetting_MouseDown">
+                                <Border.Background>
+                                    <LinearGradientBrush EndPoint="0.5,1" StartPoint="0.5,0">
+                                        <GradientStop Color="#FF98BAFF"/>
+                                        <GradientStop Color="#FF1B2C5A" Offset="1"/>
+                                    </LinearGradientBrush>
+                                </Border.Background>
+                                <TextBlock Text="🔧" Foreground="White" HorizontalAlignment="Center" VerticalAlignment="Bottom" FontSize="20">
+                                </TextBlock>
+                            </Border>
+                        </WrapPanel>
+                    </Grid>
+
+
+                    <ScottPlot:WpfPlot  x:Name="WpfPlot1" Margin="0" Grid.Row="1" Grid.Column="0"
+                                             VerticalAlignment="Stretch" HorizontalAlignment="Stretch" 
+                                             Background="Black" Foreground="White" />
+
+                    <GridSplitter Grid.Row="0" Grid.RowSpan="2" Grid.Column="1" HorizontalAlignment="Stretch" Width="3">
+                        <GridSplitter.Background>
+                            <SolidColorBrush Color="#FFF0F0F0" Opacity="0.5"/>
+                        </GridSplitter.Background>
+                    </GridSplitter>
+
+                    <ScottPlot:WpfPlot  x:Name="WpfPlot2" Margin="0" Grid.Row="1" Grid.Column="2"
+                                VerticalAlignment="Stretch" HorizontalAlignment="Stretch" 
+                                Background="Black" Foreground="White" />
+
+
+
+                    <Frame x:Name="PlotSetting_Frame" Grid.Row="1" Grid.Column="0" Grid.ColumnSpan="3" Margin="0,0,0,0" 
+        Background="#FF222838" Foreground="White" 
+        Visibility="Collapsed" HorizontalAlignment="Right" Width="1215" Height="484"/>
+
+                </Grid>
+
+                <Border Visibility="Collapsed" x:Name="border_StretchCtrlPanel" Grid.Row="0" Grid.Column="2" Grid.RowSpan="3" Width="30" Height="100"  CornerRadius="15,0,0,15" 
+                        Grid.ColumnSpan="1" HorizontalAlignment="Right" BorderBrush="White" BorderThickness="1,1,0,1" MouseDown="border_StretchCtrlPanel_MouseDown"                        >
+                    <Border.Background>
+                        <SolidColorBrush Color="#FF797979" Opacity="1"/>
+                    </Border.Background>
+                    <TextBlock x:Name="Text_StretchCtrlPanel" Text="➮" FontSize="30" Margin="0" Background="{x:Null}"  Foreground="White" VerticalAlignment="Center" HorizontalAlignment="Center" TextWrapping="WrapWithOverflow" RenderTransformOrigin="0.5,0.5" >
+                        <TextBlock.RenderTransform>
+                            <TransformGroup>
+                                <ScaleTransform/>
+                                <SkewTransform/>
+                                <RotateTransform Angle="180"/>
+                                <TranslateTransform/>
+                            </TransformGroup>
+                        </TextBlock.RenderTransform>
+                    </TextBlock>
+                </Border>
+
+<!--底下表格-->
                 <Border Grid.Row="2" Grid.Column="2" CornerRadius="10,10,10,10" Margin="0,2,0,0">
                     <Grid>
                         <Grid.RowDefinitions>
                             <RowDefinition Height="Auto"/>
-                            <RowDefinition Height="Auto"/>
+                            <RowDefinition Height="*"/>
                         </Grid.RowDefinitions>
 
                         <Grid>
@@ -296,18 +691,137 @@
                                     </TextBlock>
                                 </Border>
 
-
+                                <Border Margin="5,0,0,0" CornerRadius="7,7,0,0" Height="25" Width="40" MouseEnter="borderRemove_MouseEnter" MouseLeave="borderRemove_MouseLeave" MouseDown="Border_MouseDown">
+                                    <Border.Background>
+                                        <LinearGradientBrush EndPoint="0.5,1" StartPoint="0.5,0">
+                                            <GradientStop Color="#FF98BAFF"/>
+                                            <GradientStop Color="#FF1B2C5A" Offset="1"/>
+                                        </LinearGradientBrush>
+                                    </Border.Background>
+                                    <TextBlock Text="🔧" Foreground="White" HorizontalAlignment="Center" VerticalAlignment="Center" FontSize="20">
+                                    </TextBlock>
+                                </Border>
                             </WrapPanel>
+
                         </Grid>
 
+                        <DataGrid x:Name="dg"
+          Grid.Row="1"
+          AutoGenerateColumns="False"
+          Margin="0"
+          EnableRowVirtualization="False"
+          EnableColumnVirtualization="False"
+          CanUserAddRows="False"
+          IsReadOnly="True"
+          Background="#FF222838"
+          HeadersVisibility="Column"
+          RowHeaderWidth="0">
 
-                        <DataGrid x:Name="dg" Grid.Row="1"  Grid.ColumnSpan="4" Margin="0" AutoGenerateColumns="False"  
-                                  Background="#FF222838" VerticalAlignment="Stretch" HorizontalAlignment="Stretch" Foreground="#FF080303" BorderBrush="{x:Null}">
-                            <DataGrid.Columns>
-                                <DataGridTextColumn Header="Column 1" Binding="{Binding Column1}" Width="*" Foreground="#FF1B0D0D"/>
-                                <DataGridTextColumn Header="Column 2" Binding="{Binding Column2}" Width="*" Foreground="Black"/>
-                            </DataGrid.Columns>
+                            <DataGrid.Resources>
+                                <Style x:Key="SafeCheckBoxStyle" TargetType="CheckBox">
+                                    <Setter Property="Width" Value="18"/>
+                                    <Setter Property="Height" Value="18"/>
+                                    <Setter Property="HorizontalAlignment" Value="Center"/>
+                                    <Setter Property="VerticalAlignment" Value="Center"/>
+                                    <Setter Property="Background" Value="Transparent"/>
+                                    <Setter Property="Template">
+                                        <Setter.Value>
+                                            <ControlTemplate TargetType="CheckBox">
+                                                <Grid>
+                                                    <Border x:Name="Bd"
+                                    Width="18"
+                                    Height="18"
+                                    BorderThickness="2"
+                                    BorderBrush="#FF6C7AE0"
+                                    Background="Transparent"/>
+                                                    <Path x:Name="CheckMark"
+                                  Data="M 2 9 L 7 14 L 15 3"
+                                  StrokeThickness="2.5"
+                                  Stroke="Lime"
+                                  Visibility="Collapsed"/>
+                                                </Grid>
+                                                <ControlTemplate.Triggers>
+                                                    <Trigger Property="IsChecked" Value="True">
+                                                        <Setter TargetName="CheckMark" Property="Visibility" Value="Visible"/>
+                                                    </Trigger>
+                                                    <Trigger Property="IsChecked" Value="False">
+                                                        <Setter TargetName="CheckMark" Property="Visibility" Value="Collapsed"/>
+                                                    </Trigger>
+                                                </ControlTemplate.Triggers>
+                                            </ControlTemplate>
+                                        </Setter.Value>
+                                    </Setter>
+                                </Style>
+                            </DataGrid.Resources>
+                            <DataGrid.GroupStyle>
+                                <GroupStyle>
+                                    <GroupStyle.ContainerStyle>
+                                        <Style TargetType="{x:Type GroupItem}">
+                                            <Setter Property="Template">
+                                                <Setter.Value>
+                                                    <ControlTemplate TargetType="{x:Type GroupItem}">
+                                                        <Expander IsExpanded="True"
+                                      Margin="0,6,0,6"
+                                      Foreground="White"
+                                      Background="#22000000">
+                                                            <Expander.Header>
+                                                                <Border Background="#663D496B"
+                                            Padding="10,6"
+                                            CornerRadius="4">
+                                                                    <TextBlock Text="{Binding Name}"
+                                                   Foreground="White"
+                                                   FontSize="16"
+                                                   FontWeight="Bold"
+                                                   TextWrapping="Wrap"/>
+                                                                </Border>
+                                                            </Expander.Header>
+                                                            <ItemsPresenter/>
+                                                        </Expander>
+                                                    </ControlTemplate>
+                                                </Setter.Value>
+                                            </Setter>
+                                        </Style>
+                                    </GroupStyle.ContainerStyle>
+                                </GroupStyle>
+                            </DataGrid.GroupStyle>
+                            
+                            <DataGrid.ColumnHeaderStyle>
+                                <Style TargetType="DataGridColumnHeader">
+                                    <Setter Property="BorderThickness" Value="0"/>
+                                    <Setter Property="VerticalAlignment" Value="Center"/>
+                                    <Setter Property="HorizontalContentAlignment" Value="Center"/>
+                                    <Setter Property="Background" Value="#FF3D496B"/>
+                                    <Setter Property="Foreground" Value="White"/>
+                                    <Setter Property="FontWeight" Value="Bold"/>
+                                    <Setter Property="Height" Value="35"/>
+                                    <Setter Property="FontSize" Value="20"/>
+                                </Style>
+                            </DataGrid.ColumnHeaderStyle>
+
+                            <DataGrid.RowStyle>
+                                <Style TargetType="DataGridRow">
+                                    <Setter Property="Height" Value="40"/>
+                                    <Setter Property="Background" Value="Transparent"/>
+                                    <Setter Property="Foreground" Value="White"/>
+                                    <Setter Property="HorizontalAlignment" Value="Center"/>
+                                    <Setter Property="HorizontalContentAlignment" Value="Center"/>
+                                    <Setter Property="FontSize" Value="18"/>
+                                </Style>
+                            </DataGrid.RowStyle>
+
+                            <DataGrid.RowHeaderStyle>
+                                <Style TargetType="DataGridRowHeader">
+                                    <Setter Property="Width" Value="0"/>
+                                    <Setter Property="FontSize" Value="18"/>
+                                    <Setter Property="Foreground" Value="White"/>
+                                    <Setter Property="Background" Value="#FF222838"/>
+                                </Style>
+                            </DataGrid.RowHeaderStyle>
                         </DataGrid>
+
+
+
+
                     </Grid>
 
                 </Border>

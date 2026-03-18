@@ -1,0 +1,124 @@
+﻿<Page x:Class="NEW_QCtech.Page_Start"
+      xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+      xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
+
+    <Page.Resources>
+
+        <Style x:Key="BigMenuButtonStyle" TargetType="Button">
+
+            <Setter Property="FontSize" Value="34"/>
+            <Setter Property="FontWeight" Value="Bold"/>
+            <Setter Property="Foreground" Value="White"/>
+            <Setter Property="Cursor" Value="Hand"/>
+
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="Button">
+                        <Grid>
+
+                            <!-- 主體 -->
+                            <Border x:Name="border"
+                            CornerRadius="25"
+                            BorderThickness="2"
+                            BorderBrush="#2FA4FF"
+                            Background="#222B3C"
+                            Padding="30">
+                                <ContentPresenter HorizontalAlignment="Center"
+                                          VerticalAlignment="Center"/>
+                            </Border>
+
+                            <!-- 能量掃描：只是一段Dash在跑（本體不旋轉） -->
+                            <Rectangle x:Name="Energy"
+                               RadiusX="25" RadiusY="25"
+                               Fill="Transparent"
+                               Stroke="#00FF66"
+                               StrokeThickness="4"
+                               Opacity="0"
+                               IsHitTestVisible="False"
+                               StrokeDashCap="Round"
+                               StrokeDashArray="40 260"
+                               StrokeDashOffset="0">
+                                <Rectangle.Effect>
+                                    <DropShadowEffect BlurRadius="18"
+                                              ShadowDepth="0"
+                                              Color="#00FF66"
+                                              Opacity="0.85"/>
+                                </Rectangle.Effect>
+                            </Rectangle>
+
+                        </Grid>
+
+                        <ControlTemplate.Triggers>
+
+                            <Trigger Property="IsMouseOver" Value="True">
+                                <!-- 外框變綠 -->
+                                <Setter TargetName="border" Property="BorderBrush" Value="#00FF66"/>
+
+                                <!-- 能量段顯示 -->
+                                <Setter TargetName="Energy" Property="Opacity" Value="1"/>
+
+                                <Trigger.EnterActions>
+                                    <BeginStoryboard x:Name="EnergyStoryboard">
+                                        <Storyboard RepeatBehavior="Forever">
+                                            <!-- 讓 dash 沿著邊框跑 -->
+                                            <DoubleAnimation Storyboard.TargetName="Energy"
+                                                     Storyboard.TargetProperty="StrokeDashOffset"
+                                                     From="0"
+                                                     To="-300"
+                                                     Duration="0:0:1.6"/>
+                                        </Storyboard>
+                                    </BeginStoryboard>
+                                </Trigger.EnterActions>
+
+                                <Trigger.ExitActions>
+                                    <StopStoryboard BeginStoryboardName="EnergyStoryboard"/>
+                                </Trigger.ExitActions>
+                            </Trigger>
+
+                            <Trigger Property="IsPressed" Value="True">
+                                <Setter TargetName="border" Property="Background" Value="#1C2738"/>
+                            </Trigger>
+
+                        </ControlTemplate.Triggers>
+
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+
+        </Style>
+
+    </Page.Resources>
+    <Grid>
+
+        <!-- 深色科技背景 -->
+        <Grid.Background>
+            <LinearGradientBrush StartPoint="0,0" EndPoint="1,1">
+                <GradientStop Color="#0B1220" Offset="0"/>
+                <GradientStop Color="#111C2E" Offset="1"/>
+            </LinearGradientBrush>
+        </Grid.Background>
+
+        <!-- 三按鈕容器 -->
+        <UniformGrid Rows="1"
+                     Columns="2"
+                     HorizontalAlignment="Center"
+                     VerticalAlignment="Center"
+                     Width="900"
+                     Height="420">
+
+            <!-- 測試模式 -->
+            <Button x:Name="AAA" Content="測試模式"
+                    Style="{StaticResource BigMenuButtonStyle}"
+                    Margin="30" Click="AAA_Click"/>
+
+            <!-- 資料分析 -->
+            <Button Content="資料分析"
+                    Style="{StaticResource BigMenuButtonStyle}"
+                    Margin="30"/>
+
+            <!-- 系統設定 -->
+
+        </UniformGrid>
+
+    </Grid>
+</Page>
