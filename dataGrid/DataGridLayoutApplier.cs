@@ -1,4 +1,4 @@
-﻿using NEW_QCtech.dataGrid.Models;
+using NEW_QCtech.dataGrid.Models;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -413,6 +413,8 @@ namespace NEW_QCtech.dataGrid
             int i;
             int k;
             string fieldId;
+            string header;
+            GridColumnDefinition reg;
 
             for (i = 0; i < dg.Columns.Count; i++)
             {
@@ -422,14 +424,27 @@ namespace NEW_QCtech.dataGrid
                 if (fieldId == "__GroupDisplay") continue;
                 if (fieldId == "__RowNo") continue;
 
+                header = null;
+
                 for (k = 0; k < cfg.SelectedColumns.Count; k++)
                 {
-                    if (cfg.SelectedColumns[k].FieldId == fieldId)
+                    if (string.Equals(cfg.SelectedColumns[k].FieldId, fieldId, StringComparison.OrdinalIgnoreCase))
                     {
-                        dg.Columns[i].Header = cfg.SelectedColumns[k].Header;
+                        if (!string.IsNullOrWhiteSpace(cfg.SelectedColumns[k].Header))
+                            header = cfg.SelectedColumns[k].Header;
                         break;
                     }
                 }
+
+                if (string.IsNullOrWhiteSpace(header))
+                {
+                    reg = ColumnRegistry.Get(fieldId);
+                    if (reg != null && !string.IsNullOrWhiteSpace(reg.Header))
+                        header = reg.Header;
+                }
+
+                if (!string.IsNullOrWhiteSpace(header))
+                    dg.Columns[i].Header = header;
             }
         }
 

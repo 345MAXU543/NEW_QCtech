@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using NEW_QCtech.dataGrid.Models;
@@ -30,17 +30,7 @@ namespace NEW_QCtech.dataGrid
                 PathInTree = "Selection/Main",
                 UIType = ColumnFieldUIType.RadioButton,
                 IsNumeric = false,
-                DefaultWidth = 60
-            },
-
-            new GridColumnDefinition
-            {
-                FieldId = "dick",
-                Header = "Force_TEST",
-                PathInTree = "Selection/Main",
-                UIType = ColumnFieldUIType.RadioButton,
-                IsNumeric = false,
-                DefaultWidth = 60
+                DefaultWidth = 200
             },
             new GridColumnDefinition
             {
@@ -78,19 +68,19 @@ namespace NEW_QCtech.dataGrid
                 UIType = ColumnFieldUIType.Text,
                 IsNumeric = false,
                 Format = "",
-                DefaultWidth = 30
+                DefaultWidth = 200
             },
             new GridColumnDefinition
             {
                 FieldId = "Force",
-                Header = "?????",
+                Header = "Force",
                 PathInTree = "Measure/Force",
                 UIType = ColumnFieldUIType.Text,
                 IsNumeric = true,
                 Format = "{0:0.###}",
                 Unit = "",
                 GroupName = "Measure",
-                DefaultWidth = 30
+                DefaultWidth = 120
             },
             new GridColumnDefinition
             {

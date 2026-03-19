@@ -1,4 +1,4 @@
-﻿using NEW_QCtech.dataGrid.Models;
+using NEW_QCtech.dataGrid.Models;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -1567,11 +1567,11 @@ namespace NEW_QCtech
             }
 
             // 舊示範欄位
-            if (c.FieldId == "idx") return rowIndex.ToString();
+            if (string.Equals(c.FieldId, "idx", StringComparison.OrdinalIgnoreCase) || string.Equals(c.FieldId, "Index", StringComparison.OrdinalIgnoreCase)) return rowIndex.ToString();
             if (c.FieldId == "name") return "Test " + rowIndex;
             if (c.FieldId == "time") return (rowIndex * 0.1).ToString("0.000");
-            if (c.FieldId == "force") return (10.0 + rowIndex * 1.23).ToString("0.00");
-            if (c.FieldId == "disp") return (50.0 + rowIndex * 0.12).ToString("0.00");
+            if (string.Equals(c.FieldId, "force", StringComparison.OrdinalIgnoreCase) || string.Equals(c.FieldId, "Force", StringComparison.OrdinalIgnoreCase)) return (10.0 + rowIndex * 1.23).ToString("0.00");
+            if (string.Equals(c.FieldId, "disp", StringComparison.OrdinalIgnoreCase) || string.Equals(c.FieldId, "Disp", StringComparison.OrdinalIgnoreCase)) return (50.0 + rowIndex * 0.12).ToString("0.00");
             if (c.FieldId == "vel") return (0.10 + rowIndex * 0.01).ToString("0.000");
 
             return "";
@@ -1708,6 +1708,9 @@ namespace NEW_QCtech
             if (string.IsNullOrWhiteSpace(fieldId))
                 return false;
 
+            if (ColumnRegistry.IsNumericField(fieldId))
+                return true;
+
             // 如果主表存在，就直接用實際欄位型別判斷
             if (_sourceTable != null && _sourceTable.Columns.Contains(fieldId))
             {
@@ -1723,12 +1726,12 @@ namespace NEW_QCtech
                     return true;
             }
 
-            // 舊示範欄位
-            if (fieldId == "idx") return true;
-            if (fieldId == "time") return true;
-            if (fieldId == "force") return true;
-            if (fieldId == "disp") return true;
-            if (fieldId == "vel") return true;
+            // 舊示範欄位保留相容
+            if (string.Equals(fieldId, "idx", StringComparison.OrdinalIgnoreCase)) return true;
+            if (string.Equals(fieldId, "time", StringComparison.OrdinalIgnoreCase)) return true;
+            if (string.Equals(fieldId, "force", StringComparison.OrdinalIgnoreCase)) return true;
+            if (string.Equals(fieldId, "disp", StringComparison.OrdinalIgnoreCase)) return true;
+            if (string.Equals(fieldId, "vel", StringComparison.OrdinalIgnoreCase)) return true;
 
             return false;
         }
@@ -1736,12 +1739,22 @@ namespace NEW_QCtech
         private string GetColumnHeaderByFieldId(string fieldId)
         {
             int i;
+            GridColumnDefinition reg;
 
             for (i = 0; i < _selectedColumns.Count; i++)
             {
-                if (_selectedColumns[i].FieldId == fieldId)
-                    return _selectedColumns[i].Header;
+                if (string.Equals(_selectedColumns[i].FieldId, fieldId, StringComparison.OrdinalIgnoreCase))
+                {
+                    if (!string.IsNullOrWhiteSpace(_selectedColumns[i].Header))
+                        return _selectedColumns[i].Header;
+
+                    break;
+                }
             }
+
+            reg = ColumnRegistry.Get(fieldId);
+            if (reg != null && !string.IsNullOrWhiteSpace(reg.Header))
+                return reg.Header;
 
             return fieldId;
         }

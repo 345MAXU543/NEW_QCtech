@@ -117,20 +117,20 @@ namespace NEW_QCtech
                 return CreateColorButtonColumn(header);
 
             if (string.Equals(fieldId, "Index", StringComparison.OrdinalIgnoreCase))
-                return CreateTextColumn(header, "Index", reg != null ? reg.DefaultWidth : 80, format);
+                return CreateTextColumn(header, "Index", GetColumnWidthFromRegistryOrDefault("Index", 80), format);
 
             if (string.Equals(fieldId, "Name", StringComparison.OrdinalIgnoreCase))
                 return CreateTextColumn(header, "Name", new DataGridLength(1, DataGridLengthUnitType.Star), format);
 
             if (string.Equals(fieldId, "Force", StringComparison.OrdinalIgnoreCase))
-                return CreateTextColumn(header, "Force", reg != null ? reg.DefaultWidth : 120, format);
+                return CreateTextColumn(header, "Force", GetColumnWidthFromRegistryOrDefault("Force", 120), format);
 
             if (string.Equals(fieldId, "Disp", StringComparison.OrdinalIgnoreCase))
-                return CreateTextColumn(header, "Disp", reg != null ? reg.DefaultWidth : 120, format);
+                return CreateTextColumn(header, "Disp", GetColumnWidthFromRegistryOrDefault("Disp", 120), format);
 
             // 其他文字欄位預設
             if (dt_dataGrid != null && dt_dataGrid.Columns.Contains(fieldId))
-                return CreateTextColumn(header, fieldId, reg != null ? reg.DefaultWidth : 120, format);
+                return CreateTextColumn(header, fieldId, GetColumnWidthFromRegistryOrDefault(fieldId, 120), format);
 
             return null;
         }
@@ -1110,35 +1110,42 @@ namespace NEW_QCtech
 
         private DataGridColumn CreateMainGridColumnFromConfig(ColumnConfig cfg)
         {
+            GridColumnDefinition reg;
+            string fieldId;
+            string header;
+            string format;
+
             if (cfg == null)
                 return null;
 
-            string fieldId = cfg.FieldId ?? "";
-            string header = string.IsNullOrWhiteSpace(cfg.Header) ? fieldId : cfg.Header;
+            fieldId = cfg.FieldId ?? "";
+            header = GetColumnHeaderFromRegistryOrConfig(cfg);
+            format = GetColumnFormatFromRegistryOrConfig(cfg);
+            reg = ColumnRegistry.Get(fieldId);
 
-            if (fieldId == "Main")
+            if (string.Equals(fieldId, "Main", StringComparison.OrdinalIgnoreCase))
                 return CreateMainRadioColumn(header);
 
-            if (fieldId == "Sub")
+            if (string.Equals(fieldId, "Sub", StringComparison.OrdinalIgnoreCase))
                 return CreateSubCheckColumn(header);
 
-            if (fieldId == "ColorBrush")
+            if (string.Equals(fieldId, "ColorBrush", StringComparison.OrdinalIgnoreCase))
                 return CreateColorButtonColumn(header);
 
-            if (fieldId == "Index")
-                return CreateTextColumn(header, "Index", 80);
+            if (string.Equals(fieldId, "Index", StringComparison.OrdinalIgnoreCase))
+                return CreateTextColumn(header, "Index", GetColumnWidthFromRegistryOrDefault("Index", 80), format);
 
-            if (fieldId == "Name")
-                return CreateTextColumn(header, "Name", 200);
+            if (string.Equals(fieldId, "Name", StringComparison.OrdinalIgnoreCase))
+                return CreateTextColumn(header, "Name", new DataGridLength(1, DataGridLengthUnitType.Star), format);
 
-            if (fieldId == "Force")
-                return CreateTextColumn(header, "Force", 120);
+            if (string.Equals(fieldId, "Force", StringComparison.OrdinalIgnoreCase))
+                return CreateTextColumn(header, "Force", GetColumnWidthFromRegistryOrDefault("Force", 120), format);
 
-            if (fieldId == "Disp")
-                return CreateTextColumn(header, "Disp", 120);
+            if (string.Equals(fieldId, "Disp", StringComparison.OrdinalIgnoreCase))
+                return CreateTextColumn(header, "Disp", GetColumnWidthFromRegistryOrDefault("Disp", 120), format);
 
             if (dt_dataGrid.Columns.Contains(fieldId))
-                return CreateTextColumn(header, fieldId, 120);
+                return CreateTextColumn(header, fieldId, GetColumnWidthFromRegistryOrDefault(fieldId, 120), format);
 
             return null;
         }
