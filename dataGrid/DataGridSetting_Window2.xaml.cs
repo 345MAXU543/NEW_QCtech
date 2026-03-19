@@ -9,6 +9,7 @@ using System.Windows.Controls;
 using System.Windows.Data;
 using System.Windows.Input;
 using System.Windows.Media;
+using NEW_QCtech.dataGrid;
 
 namespace NEW_QCtech
 {
@@ -252,30 +253,25 @@ namespace NEW_QCtech
             _allFields.Clear();
             _allMetrics.Clear();
 
-            // 如果主視窗有傳實際 DataTable 進來，就直接用它的欄位
+            // 先從集中欄位中心讀
+            foreach (GridColumnDefinition def in ColumnRegistry.GetAll())
+            {
+                AddField(def.FieldId, def.Header, def.PathInTree, def.UIType);
+            }
+
+            // 如果主視窗有傳實際 DataTable 進來，補上 registry 沒有的欄位
             if (_sourceTable != null && _sourceTable.Columns.Count > 0)
             {
                 foreach (DataColumn col in _sourceTable.Columns)
                 {
-                    AddField(col.ColumnName, col.ColumnName, "資料表", GuessUiTypeByColumn(col));
+                    bool exists = _allFields.Any(x =>
+                        string.Equals(x.Id, col.ColumnName, StringComparison.OrdinalIgnoreCase));
+
+                    if (!exists)
+                    {
+                        AddField(col.ColumnName, col.ColumnName, "資料表", GuessUiTypeByColumn(col));
+                    }
                 }
-            }
-            else
-            {
-                // 沒傳資料時，使用你原本的示範欄位
-                AddField("idx", "Index", "基本", ColumnFieldUIType.Text);
-                AddField("name", "Name", "基本", ColumnFieldUIType.Text);
-
-                AddField("time", "Time", "訊號/類比", ColumnFieldUIType.Text);
-                AddField("force", "Force", "訊號/類比", ColumnFieldUIType.Text);
-                AddField("disp", "Displacement", "訊號/類比", ColumnFieldUIType.Text);
-                AddField("vel", "Velocity", "訊號/類比", ColumnFieldUIType.Text);
-
-                AddField("chkBox", "CheckBox", "其他", ColumnFieldUIType.CheckBox);
-                AddField("radbtn", "RadioButton", "其他", ColumnFieldUIType.RadioButton);
-                AddField("btn", "Button", "其他", ColumnFieldUIType.Button);
-                AddField("okng", "[OK/NG]", "其他", ColumnFieldUIType.OkNgLabel);
-                AddField("color", "Color", "其他", ColumnFieldUIType.Color);
             }
 
             AddMetric("Count", "Count");
@@ -518,21 +514,24 @@ namespace NEW_QCtech
         {
             int i;
             ColumnConfig c;
+            GridColumnDefinition reg;
 
             if (f == null) return;
 
             for (i = 0; i < _selectedColumns.Count; i++)
             {
-                if (_selectedColumns[i].FieldId == f.Id)
+                if (string.Equals(_selectedColumns[i].FieldId, f.Id, StringComparison.OrdinalIgnoreCase))
                     return;
             }
 
+            reg = ColumnRegistry.Get(f.Id);
+
             c = new ColumnConfig();
             c.FieldId = f.Id;
-            c.Header = f.Name;
-            c.Format = "";
+            c.Header = reg != null ? reg.Header : f.Name;
+            c.Format = reg != null ? reg.Format : "";
             c.OkNgRule = "";
-            c.UIType = f.UIType;
+            c.UIType = reg != null ? reg.UIType : f.UIType;
 
             _selectedColumns.Add(c);
         }

@@ -6,6 +6,7 @@ using System.Data;
 using System.Text;
 using System.Windows.Controls;
 using System.Windows.Data;
+using NEW_QCtech.dataGrid;
 
 namespace NEW_QCtech.dataGrid
 {
@@ -236,17 +237,13 @@ namespace NEW_QCtech.dataGrid
             int i;
             string fieldId;
 
-            if (cfg == null) return "";
-
-            if (cfg.Grouping != null)
-            {
-                if (IsNumericFieldId(cfg.Grouping.GroupFieldId))
-                    return cfg.Grouping.GroupFieldId;
-            }
+            if (cfg == null || cfg.SelectedColumns == null)
+                return "";
 
             for (i = 0; i < cfg.SelectedColumns.Count; i++)
             {
                 fieldId = cfg.SelectedColumns[i].FieldId;
+
                 if (IsNumericFieldId(fieldId))
                     return fieldId;
             }
@@ -256,23 +253,40 @@ namespace NEW_QCtech.dataGrid
 
         private static bool IsNumericFieldId(string fieldId)
         {
-            if (fieldId == "idx") return true;
-            if (fieldId == "time") return true;
-            if (fieldId == "force") return true;
-            if (fieldId == "disp") return true;
-            if (fieldId == "vel") return true;
+            if (string.IsNullOrWhiteSpace(fieldId))
+                return false;
+
+            if (ColumnRegistry.IsNumericField(fieldId))
+                return true;
+
             return false;
         }
 
         private static string GetColumnHeader(DataGridLayoutConfig cfg, string fieldId)
         {
             int i;
+            GridColumnDefinition reg;
 
-            for (i = 0; i < cfg.SelectedColumns.Count; i++)
+            if (string.IsNullOrWhiteSpace(fieldId))
+                return "";
+
+            if (cfg != null && cfg.SelectedColumns != null)
             {
-                if (cfg.SelectedColumns[i].FieldId == fieldId)
-                    return cfg.SelectedColumns[i].Header;
+                for (i = 0; i < cfg.SelectedColumns.Count; i++)
+                {
+                    if (string.Equals(cfg.SelectedColumns[i].FieldId, fieldId, StringComparison.OrdinalIgnoreCase))
+                    {
+                        if (!string.IsNullOrWhiteSpace(cfg.SelectedColumns[i].Header))
+                            return cfg.SelectedColumns[i].Header;
+
+                        break;
+                    }
+                }
             }
+
+            reg = ColumnRegistry.Get(fieldId);
+            if (reg != null && !string.IsNullOrWhiteSpace(reg.Header))
+                return reg.Header;
 
             return fieldId;
         }

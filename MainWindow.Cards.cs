@@ -240,12 +240,7 @@ namespace NEW_QCtech
                         UIType = ColumnFieldUIType.Text
                     });
 
-                    _gridLayoutConfig.SelectedColumns.Add(new ColumnConfig
-                    {
-                        FieldId = "Force",
-                        Header = "Force",
-                        UIType = ColumnFieldUIType.Text
-                    });
+                   
 
                     _gridLayoutConfig.SelectedColumns.Add(new ColumnConfig
                     {
