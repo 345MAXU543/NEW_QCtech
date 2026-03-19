@@ -43,7 +43,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Compile Update="MainWindow\dataGrid\DataGridSetting_Window2.xaml.cs">
+    <Compile Update="MainWindow\dataGrid\DataGridSetting_Window.xaml.cs">
       <SubType>Code</SubType>
     </Compile>
   </ItemGroup>
