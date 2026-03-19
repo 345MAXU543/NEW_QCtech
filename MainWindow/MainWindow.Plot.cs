@@ -498,43 +498,5 @@ namespace NEW_QCtech
             if (checkedIndexSet.Count == 0 && dt_dataGrid.Rows.Count > 0)
                 checkedIndexSet.Add(Convert.ToInt32(dt_dataGrid.Rows[0]["Index"]));
         }
-
-        //public void ApplyGridLayoutToMainGrid()
-        //{
-        //    if (dt_dataGrid == null)
-        //        return;
-
-        //    if (_gridLayoutConfig == null)
-        //        return;
-
-        //    _isBuildingGrid = true;
-
-        //    try
-        //    {
-        //        DataTable displayTable = BuildDisplayTableForMainGrid(dt_dataGrid, _gridLayoutConfig);
-
-        //        dg.ItemsSource = null;
-        //        dg.Columns.Clear();
-
-        //        for (int i = 0; i < _gridLayoutConfig.SelectedColumns.Count; i++)
-        //        {
-        //            ColumnConfig cfg = _gridLayoutConfig.SelectedColumns[i];
-        //            DataGridColumn col = CreateMainGridColumnFromConfig(cfg);
-
-        //            if (col == null)
-        //                continue;
-
-        //            dg.Columns.Add(col);
-        //        }
-
-        //        dg.ItemsSource = displayTable.DefaultView;
-
-        //        ApplyMainGridGrouping(displayTable);
-        //        dg.Items.Refresh();
-        //    }
-        //    finally
-        //    {
-        //        _isBuildingGrid = false;
-        //    }
     }
 }

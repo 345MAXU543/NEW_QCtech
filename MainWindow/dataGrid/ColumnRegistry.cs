@@ -1,9 +1,8 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using NEW_QCtech.dataGrid.Models;
 
-namespace NEW_QCtech.dataGrid
+namespace NEW_QCtech.MainWindow.dataGrid
 {
     public class GridColumnDefinition
     {

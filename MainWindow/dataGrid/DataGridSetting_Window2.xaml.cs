@@ -1,4 +1,3 @@
-using NEW_QCtech.dataGrid.Models;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -9,7 +8,6 @@ using System.Windows.Controls;
 using System.Windows.Data;
 using System.Windows.Input;
 using System.Windows.Media;
-using NEW_QCtech.dataGrid;
 
 namespace NEW_QCtech
 {
@@ -1179,209 +1177,51 @@ namespace NEW_QCtech
 
         private string BuildGroupDisplayText(string groupKey, List<DataRow> rows)
         {
-            string text;
-            int i;
-            string metricText;
-
-            text = groupKey;
-
-            if (_selectedMetrics.Count == 0)
-            {
-                text += "   |   Count = " + rows.Count.ToString();
-                return text;
-            }
-
-            for (i = 0; i < _selectedMetrics.Count; i++)
-            {
-                metricText = BuildMetricText(_selectedMetrics[i], rows);
-
-                if (metricText != "")
-                    text += "   |   " + metricText;
-            }
-
-            return text;
+            return GridGroupingHelper.BuildGroupDisplayText(
+                groupKey,
+                rows,
+                _selectedMetrics,
+                metric => ResolveMetricTargetFieldId(metric),
+                fieldId => GetColumnHeaderByFieldId(fieldId));
         }
 
         private string BuildMetricText(GroupMetricDef metric, List<DataRow> rows)
         {
-            string fieldId;
-            string header;
-            double avgValue;
-            double maxValue;
-            int minNo;
-            int maxNo;
-
-            if (metric == null) return "";
-
-            if (metric.Id == "Count")
-                return "Count = " + rows.Count.ToString();
-
-            if (metric.Id == "index_range")
-            {
-                minNo = GetMinRowNo(rows);
-                maxNo = GetMaxRowNo(rows);
-                return "Range = " + minNo.ToString() + "~" + maxNo.ToString();
-            }
-
-            fieldId = metric.TargetFieldId;
-            if (fieldId == "")
-                fieldId = GetDefaultMetricTargetFieldId();
-
-            header = GetColumnHeaderByFieldId(fieldId);
-
-            if (metric.Id == "Avg")
-            {
-                if (!TryGetAverage(rows, fieldId, out avgValue))
-                    return "Avg(" + header + ") = N/A";
-
-                return "Avg(" + header + ") = " + avgValue.ToString("0.###");
-            }
-
-            if (metric.Id == "Max")
-            {
-                if (!TryGetMax(rows, fieldId, out maxValue))
-                    return "Max(" + header + ") = N/A";
-
-                return "Max(" + header + ") = " + maxValue.ToString("0.###");
-            }
-
-            return metric.Name;
+            return GridGroupingHelper.BuildMetricText(
+                metric,
+                rows,
+                m => ResolveMetricTargetFieldId(m),
+                fieldId => GetColumnHeaderByFieldId(fieldId));
         }
 
         private bool TryGetAverage(List<DataRow> rows, string fieldId, out double avgValue)
         {
-            int i;
-            int count;
-            double sum;
-            double v;
-
-            avgValue = 0;
-            sum = 0;
-            count = 0;
-
-            if (fieldId == "") return false;
-
-            for (i = 0; i < rows.Count; i++)
-            {
-                if (TryGetRowDouble(rows[i], fieldId, out v))
-                {
-                    sum += v;
-                    count++;
-                }
-            }
-
-            if (count <= 0) return false;
-
-            avgValue = sum / count;
-            return true;
+            return GridGroupingHelper.TryGetAverage(rows, fieldId, out avgValue);
         }
 
         private bool TryGetMax(List<DataRow> rows, string fieldId, out double maxValue)
         {
-            int i;
-            bool hasValue;
-            double v;
-
-            maxValue = 0;
-            hasValue = false;
-
-            if (fieldId == "") return false;
-
-            for (i = 0; i < rows.Count; i++)
-            {
-                if (TryGetRowDouble(rows[i], fieldId, out v))
-                {
-                    if (!hasValue)
-                    {
-                        maxValue = v;
-                        hasValue = true;
-                    }
-                    else if (v > maxValue)
-                    {
-                        maxValue = v;
-                    }
-                }
-            }
-
-            return hasValue;
+            return GridGroupingHelper.TryGetMax(rows, fieldId, out maxValue);
         }
 
         private bool TryGetRowDouble(DataRow row, string fieldId, out double value)
         {
-            string raw;
-
-            value = 0;
-
-            if (row == null) return false;
-            if (!_previewTable.Columns.Contains(fieldId)) return false;
-
-            raw = row[fieldId].ToString();
-            return double.TryParse(raw, out value);
+            return GridGroupingHelper.TryGetRowDouble(row, fieldId, out value);
         }
 
         private int GetMinRowNo(List<DataRow> rows)
         {
-            int i;
-            int minValue;
-            int v;
-
-            if (rows.Count == 0) return 0;
-
-            minValue = Convert.ToInt32(rows[0]["__RowNo"]);
-
-            for (i = 1; i < rows.Count; i++)
-            {
-                v = Convert.ToInt32(rows[i]["__RowNo"]);
-                if (v < minValue)
-                    minValue = v;
-            }
-
-            return minValue;
+            return GridGroupingHelper.GetMinRowNo(rows);
         }
 
         private int GetMaxRowNo(List<DataRow> rows)
         {
-            int i;
-            int maxValue;
-            int v;
-
-            if (rows.Count == 0) return 0;
-
-            maxValue = Convert.ToInt32(rows[0]["__RowNo"]);
-
-            for (i = 1; i < rows.Count; i++)
-            {
-                v = Convert.ToInt32(rows[i]["__RowNo"]);
-                if (v > maxValue)
-                    maxValue = v;
-            }
-
-            return maxValue;
+            return GridGroupingHelper.GetMaxRowNo(rows);
         }
 
         private void ApplyHeadersToGrid(DataGrid dg)
         {
-            int i;
-            int k;
-            string fieldId;
-
-            for (i = 0; i < dg.Columns.Count; i++)
-            {
-                fieldId = dg.Columns[i].SortMemberPath;
-
-                if (fieldId == "__GroupKey") continue;
-                if (fieldId == "__GroupDisplay") continue;
-                if (fieldId == "__RowNo") continue;
-
-                for (k = 0; k < _selectedColumns.Count; k++)
-                {
-                    if (_selectedColumns[k].FieldId == fieldId)
-                    {
-                        dg.Columns[i].Header = _selectedColumns[k].Header;
-                        break;
-                    }
-                }
-            }
+            GridGroupingHelper.ApplyHeadersToGrid(dg, _selectedColumns);
         }
 
         private void dgPreview_AutoGeneratingColumn(object sender, DataGridAutoGeneratingColumnEventArgs e)
@@ -1684,20 +1524,26 @@ namespace NEW_QCtech
             return g;
         }
 
+        private string ResolveMetricTargetFieldId(GroupMetricDef metric)
+        {
+            if (metric == null)
+                return "";
+
+            if (!string.IsNullOrWhiteSpace(metric.TargetFieldId))
+                return metric.TargetFieldId;
+
+            return GetDefaultMetricTargetFieldId();
+        }
+
         private string GetDefaultMetricTargetFieldId()
         {
-            int i;
+            if (_grouping != null && CanFieldBeNumeric(_grouping.GroupFieldId))
+                return _grouping.GroupFieldId;
 
-            if (_grouping != null)
+            foreach (ColumnConfig column in _selectedColumns)
             {
-                if (CanFieldBeNumeric(_grouping.GroupFieldId))
-                    return _grouping.GroupFieldId;
-            }
-
-            for (i = 0; i < _selectedColumns.Count; i++)
-            {
-                if (CanFieldBeNumeric(_selectedColumns[i].FieldId))
-                    return _selectedColumns[i].FieldId;
+                if (CanFieldBeNumeric(column.FieldId))
+                    return column.FieldId;
             }
 
             return "";

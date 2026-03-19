@@ -29,9 +29,9 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Resource Include="13.png" />
-    <Resource Include="CompnyTrand.png" />
-    <Resource Include="MainPageBG.png" />
+    <Resource Include="Resources\ICON\13.png" />
+    <Resource Include="Resources\ICON\CompnyTrand.png" />
+    <Resource Include="Resources\ICON\MainPageBG.png" />
     <Resource Include="Resources\ICON\btn_down.png" />
     <Resource Include="Resources\ICON\btn_Return.png" />
     <Resource Include="Resources\ICON\btn_Start.png" />
@@ -39,16 +39,11 @@
     <Resource Include="Resources\ICON\btn_zero.png" />
     <Resource Include="Resources\ICON\LeftArrow.png" />
     <Resource Include="Resources\ICON\UPgif.gif" />
-    <Resource Include="未命名.png" />
+    <Resource Include="Resources\ICON\未命名.png" />
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="Modules\" />
-    <Folder Include="Page\" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <Compile Update="dataGrid\DataGridSetting_Window2.xaml.cs">
+    <Compile Update="MainWindow\dataGrid\DataGridSetting_Window2.xaml.cs">
       <SubType>Code</SubType>
     </Compile>
   </ItemGroup>

@@ -1,35 +1,19 @@
-using NEW_QCtech.dataGrid.Models;
-using OpenTK.Windowing.Desktop;
-using OpenTK.Windowing.GraphicsLibraryFramework;
-using ScottPlot;
-using ScottPlot.Colormaps;
-using ScottPlot.MultiplotLayouts;
-using ScottPlot.TickGenerators;
-using System.Collections;
-using System.Collections.ObjectModel;
-using System.Collections.Specialized;
+using System;
+using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
-using System.Globalization;
-using System.Reflection;
-using System.Runtime.CompilerServices;
-using System.Runtime.InteropServices;
-using System.Text;
+using System.Linq;
 using System.Windows;
 using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Input;
-using System.Windows.Interop;
-using System.Windows.Media;
-using System.Windows.Threading;
-using System.Linq;
 using System.Windows.Controls.Primitives;
-using NEW_QCtech.dataGrid;
+using System.Windows.Data;
+using System.Windows.Media;
 
 using Color = System.Windows.Media.Color;
 using Colors = System.Windows.Media.Colors;
 
 namespace NEW_QCtech
+
 {
     /// <summary>
     /// MainWindow：Main DataGrid 建構、套版、群組與欄位建立。
@@ -95,44 +79,7 @@ namespace NEW_QCtech
 
         private DataGridColumn CreateMainGridColumn(ColumnConfig cfg)
         {
-            GridColumnDefinition reg;
-            string fieldId;
-            string header;
-            string format;
-
-            if (cfg == null) return null;
-
-            fieldId = cfg.FieldId ?? "";
-            header = GetColumnHeaderFromRegistryOrConfig(cfg);
-            format = GetColumnFormatFromRegistryOrConfig(cfg);
-            reg = ColumnRegistry.Get(fieldId);
-
-            if (string.Equals(fieldId, "Main", StringComparison.OrdinalIgnoreCase))
-                return CreateMainRadioColumn(header);
-
-            if (string.Equals(fieldId, "Sub", StringComparison.OrdinalIgnoreCase))
-                return CreateSubCheckColumn(header);
-
-            if (string.Equals(fieldId, "ColorBrush", StringComparison.OrdinalIgnoreCase))
-                return CreateColorButtonColumn(header);
-
-            if (string.Equals(fieldId, "Index", StringComparison.OrdinalIgnoreCase))
-                return CreateTextColumn(header, "Index", GetColumnWidthFromRegistryOrDefault("Index", 80), format);
-
-            if (string.Equals(fieldId, "Name", StringComparison.OrdinalIgnoreCase))
-                return CreateTextColumn(header, "Name", new DataGridLength(1, DataGridLengthUnitType.Star), format);
-
-            if (string.Equals(fieldId, "Force", StringComparison.OrdinalIgnoreCase))
-                return CreateTextColumn(header, "Force", GetColumnWidthFromRegistryOrDefault("Force", 120), format);
-
-            if (string.Equals(fieldId, "Disp", StringComparison.OrdinalIgnoreCase))
-                return CreateTextColumn(header, "Disp", GetColumnWidthFromRegistryOrDefault("Disp", 120), format);
-
-            // 其他文字欄位預設
-            if (dt_dataGrid != null && dt_dataGrid.Columns.Contains(fieldId))
-                return CreateTextColumn(header, fieldId, GetColumnWidthFromRegistryOrDefault(fieldId, 120), format);
-
-            return null;
+            return CreateMainGridColumnFromConfig(cfg);
         }
 
         private DataGridTemplateColumn CreateMainRadioColumn(string header)

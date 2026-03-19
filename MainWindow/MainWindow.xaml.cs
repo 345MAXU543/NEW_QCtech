@@ -1,5 +1,4 @@
-﻿using NEW_QCtech.dataGrid.Models;
-using OpenTK.Windowing.Desktop;
+﻿using OpenTK.Windowing.Desktop;
 using OpenTK.Windowing.GraphicsLibraryFramework;
 using ScottPlot;
 using ScottPlot.Colormaps;
@@ -22,7 +21,6 @@ using System.Windows.Input;
 using System.Windows.Interop;
 using System.Windows.Media;
 using System.Windows.Threading;
-using NEW_QCtech.dataGrid.Models;
 using System.Data;
 using System.Linq;
 using System.Windows.Controls.Primitives;
