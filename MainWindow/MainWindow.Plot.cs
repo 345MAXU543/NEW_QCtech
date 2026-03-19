@@ -1,4 +1,4 @@
-using NEW_QCtech.dataGrid.Models;
+using NEW_QCtech;
 using OpenTK.Windowing.Desktop;
 using OpenTK.Windowing.GraphicsLibraryFramework;
 using ScottPlot;

@@ -13,6 +13,7 @@ namespace NEW_QCtech
 {
     public partial class DataGridSetting_Window2 : Window
     {
+        
         private class ColumnFieldDef
         {
             public string Id = "";

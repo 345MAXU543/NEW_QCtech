@@ -1,6 +1,6 @@
 using System.Collections.Generic;
 
-namespace NEW_QCtech.MainWindow.dataGrid
+namespace NEW_QCtech
 {
     public enum ColumnFieldUIType
     {

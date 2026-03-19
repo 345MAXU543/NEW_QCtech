@@ -4,7 +4,7 @@ using System.Data;
 using System.Linq;
 using System.Windows.Controls;
 
-namespace NEW_QCtech.MainWindow.dataGrid
+namespace NEW_QCtech
 {
     internal static class GridGroupingHelper
     {

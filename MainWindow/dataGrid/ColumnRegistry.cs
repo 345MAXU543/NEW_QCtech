@@ -2,7 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 
-namespace NEW_QCtech.MainWindow.dataGrid
+namespace NEW_QCtech
 {
     public class GridColumnDefinition
     {

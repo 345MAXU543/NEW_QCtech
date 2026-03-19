@@ -5,7 +5,7 @@ using System.Data;
 using System.Windows.Controls;
 using System.Windows.Data;
 
-namespace NEW_QCtech.MainWindow.dataGrid
+namespace NEW_QCtech
 {
     class DataGridLayoutApplier
     {
