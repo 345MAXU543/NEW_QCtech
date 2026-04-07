@@ -483,14 +483,88 @@ Grid.ColumnSpan="3">
                         <TreeView.Background>
                             <SolidColorBrush Color="#FF222838" Opacity="1"/>
                         </TreeView.Background>
-                        <TreeViewItem Header="Item 1" Foreground="White" Background="{x:Null}">
-                            <TreeViewItem Header="Subitem 1.1" Foreground="White" Background="#FF424242"/>
-                            <TreeViewItem Header="Subitem 1.2" Foreground="White" Background="#FF424242"/>
+                        <TreeViewItem Header="依實驗分類" Foreground="White" Background="{x:Null}">
+                            <TreeViewItem Header="拉伸試驗" Foreground="White" Background="#FF424242">
+                                <TreeViewItem Header="20260101批次"  Foreground="White" Background="#FF424242">
+                                    <TreeViewItem  Foreground="White" Background="#FF424242">
+                                        <TreeViewItem.Header>
+                                            <StackPanel Orientation="Horizontal">
+                                                <Border Background="LimeGreen" CornerRadius="4" Margin="10,0,0,0" Padding="6,2">
+                                                    <TextBlock Text="OK" Foreground="White" FontWeight="Bold"/>
+                                                </Border>
+                                                <TextBlock Text=" Test1" VerticalAlignment="Center"/>
+                                            </StackPanel>
+                                        </TreeViewItem.Header>
+                                        <TreeViewItem Header="參數" Foreground="White">
+
+                                        </TreeViewItem>
+                                        <TreeViewItem Header="結果" Foreground="White">
+                                            <ListBox Background="{x:Null}" Foreground="White">
+                                                <ListBoxItem Content="最大荷重: 100 Kg"/>
+                                                <ListBoxItem Content="最大應變: 80"/>
+                                                <ListBoxItem Content="最大延伸率: 50%"/>
+                                                <Button Content="點我更改試片參數"/>
+                                            </ListBox>
+                                        </TreeViewItem>
+
+
+                                    </TreeViewItem>
+                                    <TreeViewItem  Foreground="White" Background="#FF424242">
+                                        <TreeViewItem.Header>
+                                            <StackPanel Orientation="Horizontal">
+                                                <Border Background="Red" CornerRadius="4" Margin="10,0,0,0" Padding="6,2">
+                                                    <TextBlock Text="NG" Foreground="White" FontWeight="Bold"/>
+                                                </Border>
+                                                <TextBlock Text=" Test2" VerticalAlignment="Center"/>
+                                            </StackPanel>
+                                        </TreeViewItem.Header>
+                                        <ListBox Background="{x:Null}" Foreground="White">
+                                            <ListBoxItem Content="最大荷重: 10 Kg" Foreground="Red"/>
+                                            <ListBoxItem Content="最大應變: 80"/>
+                                            <ListBoxItem Content="最大延伸率: 50%"/>
+                                            <Button Content="點我更改試片參數"/>
+                                        </ListBox>
+
+                                    </TreeViewItem>
+                                </TreeViewItem>
+                                <TreeViewItem Header="20260102批次"  Foreground="White" Background="#FF424242"/>
+                            </TreeViewItem>
+                            <TreeViewItem Header="剝離試驗" Foreground="White" Background="#FF424242"/>
+                            <TreeViewItem Header="壓縮試驗" Foreground="White" Background="#FF424242"/>
                         </TreeViewItem>
-                        <TreeViewItem Header="Item 2" Foreground="White" Background="{x:Null}">
-                            <TreeViewItem Header="Subitem 2.1" Foreground="White" Background="#FF424242"/>
-                            <TreeViewItem Header="Subitem 2.2" Foreground="White" Background="#FF424242"/>
+
+                        <TreeViewItem Header="各UI範例" Foreground="White" Background="{x:Null}">
+                            <TreeViewItem Header="Subitem 2.1" Foreground="White" Background="#FF424242">
+                                <TreeViewItem Header="Subitem 2.1" Foreground="White" Background="#FF424242"/>
+                            </TreeViewItem>
+                            <Button Content="Button in TreeView" FontSize="30" Foreground="White" Background="#FF424242" BorderBrush="#FFB2CBF6" BorderThickness="1,1,1,0" Margin="0"/>
+                            <ListBox >
+                                <ListBoxItem Content="AA"/>
+                                <ListBoxItem Content="BB"/>
+                                <ListBoxItem Content="CC"/>
+                            </ListBox>
+                            <RadioButton GroupName="inTree" Content="radio1" Foreground="White" IsChecked="True"/>
+                            <RadioButton GroupName="inTree" Content="radio2" Foreground="White"/>
+                            <RadioButton GroupName="inTree" Content="radio3" Foreground="White"/>
+                            <CheckBox Content="checkbox1" Foreground="White" IsChecked="True"/>
+                            <CheckBox Content="checkbox2" Foreground="White"/>
+                            <CheckBox Content="checkbox3" Foreground="White"/>
+
                         </TreeViewItem>
+
+                        <TreeViewItem Header="無限階層範例" Foreground="White" Background="{x:Null}">
+                            <TreeViewItem Header="Subitem 1.1" Foreground="White" Background="#FF424242">
+                                <TreeViewItem Header="Subitem 1.1.1" Foreground="White" Background="#FF424242">
+                                    <TreeViewItem Header="Subitem 1.1.1.1" Foreground="White" Background="#FF424242">
+                                        <TreeViewItem Header="Subitem 1.1.1.1.1" Foreground="White" Background="#FF424242">
+
+                                        </TreeViewItem>
+                                    </TreeViewItem>
+                                </TreeViewItem>
+                            </TreeViewItem>
+
+                        </TreeViewItem>
+
                     </TreeView>
                 </Grid>
 
@@ -630,7 +704,7 @@ MouseEnter="borderRemove_MouseEnter" MouseLeave="borderRemove_MouseLeave" MouseD
                     </TextBlock>
                 </Border>
 
-<!--底下表格-->
+                <!--底下表格-->
                 <Border Grid.Row="2" Grid.Column="2" CornerRadius="10,10,10,10" Margin="0,2,0,0">
                     <Grid>
                         <Grid.RowDefinitions>
@@ -784,7 +858,7 @@ MouseEnter="borderRemove_MouseEnter" MouseLeave="borderRemove_MouseLeave" MouseD
                                     </GroupStyle.ContainerStyle>
                                 </GroupStyle>
                             </DataGrid.GroupStyle>
-                            
+
                             <DataGrid.ColumnHeaderStyle>
                                 <Style TargetType="DataGridColumnHeader">
                                     <Setter Property="BorderThickness" Value="0"/>
