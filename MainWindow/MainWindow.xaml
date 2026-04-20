@@ -55,6 +55,8 @@
 
         </Grid.ColumnDefinitions>
 
+
+
         <Label x:Name="label_Alert"
                Grid.Row="0" Grid.Column="0" Grid.RowSpan="1" Grid.ColumnSpan="2"
                Content="警告訊息 或是 狀態" FontSize="16"  Background="Transparent" Margin="0,0,0,3"  MouseMove="label_Alert_MouseMove"/>
@@ -483,10 +485,15 @@ Grid.ColumnSpan="3">
                         <TreeView.Background>
                             <SolidColorBrush Color="#FF222838" Opacity="1"/>
                         </TreeView.Background>
+                        <Popup x:Name="hintPopup"  Placement="Right"  AllowsTransparency="True"   StaysOpen="True">
+                            <Border Background="#DD222222" CornerRadius="6" Padding="6">
+                                <Image x:Name="hintImage" Width="auto" Height="auto"  Stretch="Uniform"/>
+                            </Border>
+                        </Popup>
                         <TreeViewItem Header="依實驗分類" Foreground="White" Background="{x:Null}">
                             <TreeViewItem Header="拉伸試驗" Foreground="White" Background="#FF424242">
                                 <TreeViewItem Header="20260101批次"  Foreground="White" Background="#FF424242">
-                                    <TreeViewItem  Foreground="White" Background="#FF424242">
+                                    <TreeViewItem x:Name="p1_treeViewItem"  Foreground="White" Background="#FF424242">
                                         <TreeViewItem.Header>
                                             <StackPanel Orientation="Horizontal">
                                                 <Border Background="LimeGreen" CornerRadius="4" Margin="10,0,0,0" Padding="6,2">
@@ -496,15 +503,90 @@ Grid.ColumnSpan="3">
                                             </StackPanel>
                                         </TreeViewItem.Header>
                                         <TreeViewItem Header="參數" Foreground="White">
-
+                                            <TextBox Text="速度:10mm/s" Background="{x:Null}" Foreground="White"/>
+                                            <TextBox Text="10mm/s" Background="{x:Null}" Foreground="White"  />
                                         </TreeViewItem>
                                         <TreeViewItem Header="結果" Foreground="White">
                                             <ListBox Background="{x:Null}" Foreground="White">
                                                 <ListBoxItem Content="最大荷重: 100 Kg"/>
                                                 <ListBoxItem Content="最大應變: 80"/>
                                                 <ListBoxItem Content="最大延伸率: 50%"/>
-                                                <Button Content="點我更改試片參數"/>
+
                                             </ListBox>
+                                        </TreeViewItem>
+                                        <TreeViewItem x:Name="TestSample" Header="試片" Foreground="White">
+                                            <ComboBox x:Name="shape" SelectedIndex="0"  >
+                                                <ComboBoxItem x:Name="flat" Content="啞鈴型(扁平)" Tag="/Resources/ICON/flat.png" 
+                                                             MouseLeave="ImageTips_MouseLeave" MouseMove="ImageTips_MouseMove"/>
+                                                <ComboBoxItem x:Name="cylinder" Content="啞鈴型(圓柱)"/>
+                                            </ComboBox>
+
+                                            <Grid Margin="1" x:Name="flat_a" Tag="/Resources/ICON/flat_a.png" MouseLeave="ImageTips_MouseLeave" MouseMove="ImageTips_MouseMove">
+                                                <Grid.ColumnDefinitions>
+                                                    <ColumnDefinition Width="*"/>
+                                                    <ColumnDefinition Width="*"/>
+                                                    <ColumnDefinition Width="*"/>
+                                                </Grid.ColumnDefinitions>
+
+                                                <Label Content="a : " Width="60" Grid.Column="0" Foreground="White"/>
+                                                <TextBox  Grid.Column="1" Width="100"/>
+                                                <Label Content="mm"  Grid.Column="2" Foreground="White"/>
+                                            </Grid>
+
+                                            <Grid Margin="1" x:Name="flat_B" Tag="/Resources/ICON/flat_B.png" MouseLeave="ImageTips_MouseLeave" MouseMove="ImageTips_MouseMove">
+                                                <Grid.ColumnDefinitions>
+                                                    <ColumnDefinition Width="*"/>
+                                                    <ColumnDefinition Width="*"/>
+                                                    <ColumnDefinition Width="*"/>
+                                                </Grid.ColumnDefinitions>
+
+                                                <Label Content="B : " Width="60" Grid.Row="1" Grid.Column="0" Foreground="White"/>
+                                                <TextBox Grid.Row="1" Grid.Column="1"  Width="100"/>
+                                                <Label Content="mm"  Grid.Column="2" Foreground="White"/>
+                                            </Grid>
+
+                                            <Grid Margin="1" x:Name="flat_L" Tag="/Resources/ICON/flat_L.png" MouseLeave="ImageTips_MouseLeave" MouseMove="ImageTips_MouseMove">
+                                                <Grid.ColumnDefinitions>
+                                                    <ColumnDefinition Width="*"/>
+                                                    <ColumnDefinition Width="*"/>
+                                                    <ColumnDefinition Width="*"/>
+                                                </Grid.ColumnDefinitions>
+
+                                                <Label Content="L : " Width="60" Grid.Row="1" Grid.Column="0" Foreground="White"/>
+                                                <TextBox Grid.Row="1" Grid.Column="1"  Width="100"/>
+                                                <Label Content="mm"  Grid.Column="2" Foreground="White"/>
+                                            </Grid>
+
+                                            <Grid Margin="1" x:Name="flat_L0" Tag="/Resources/ICON/flat_L0.png" MouseLeave="ImageTips_MouseLeave" MouseMove="ImageTips_MouseMove">
+                                                <Grid.ColumnDefinitions>
+                                                    <ColumnDefinition Width="*"/>
+                                                    <ColumnDefinition Width="*"/>
+                                                    <ColumnDefinition Width="*"/>
+                                                </Grid.ColumnDefinitions>
+
+                                                <Label Content="L0 :" Width="60" Grid.Row="1" Grid.Column="0" Foreground="White"/>
+                                                <TextBox Grid.Row="1" Grid.Column="1"  Width="100"/>
+                                                <Label Content="mm"  Grid.Column="2" Foreground="White"/>
+                                            </Grid>
+
+                                            <Grid Margin="1" x:Name="flat_sB" Tag="/Resources/ICON/flat_sb.png" MouseLeave="ImageTips_MouseLeave" MouseMove="ImageTips_MouseMove">
+                                                <Grid.ColumnDefinitions>
+                                                    <ColumnDefinition Width="*"/>
+                                                    <ColumnDefinition Width="*"/>
+                                                    <ColumnDefinition Width="*"/>
+                                                </Grid.ColumnDefinitions>
+
+                                                <Label Content="b : " Width="60" Grid.Row="1" Grid.Column="0" Foreground="White"/>
+                                                <TextBox Grid.Row="1" Grid.Column="1"  Width="100"/>
+                                                <Label Content="mm"  Grid.Column="2" Foreground="White"/>
+                                            </Grid>
+                                            <Button x:Name="btn_saveSamplePara" Content="儲存試片參數" Width="200"/>
+
+
+
+
+
+
                                         </TreeViewItem>
 
 
@@ -552,6 +634,7 @@ Grid.ColumnSpan="3">
 
                         </TreeViewItem>
 
+                      
                         <TreeViewItem Header="無限階層範例" Foreground="White" Background="{x:Null}">
                             <TreeViewItem Header="Subitem 1.1" Foreground="White" Background="#FF424242">
                                 <TreeViewItem Header="Subitem 1.1.1" Foreground="White" Background="#FF424242">

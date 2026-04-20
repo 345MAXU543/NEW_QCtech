@@ -9,22 +9,23 @@ using System.Collections.ObjectModel;
 using System.Collections.Specialized;
 using System.ComponentModel;
 using System.Data;
+using System.Data;
 using System.Globalization;
+using System.IO;
+using System.Linq;
 using System.Reflection;
 using System.Runtime.CompilerServices;
 using System.Runtime.InteropServices;
 using System.Text;
 using System.Windows;
 using System.Windows.Controls;
+using System.Windows.Controls.Primitives;
 using System.Windows.Data;
 using System.Windows.Input;
 using System.Windows.Interop;
 using System.Windows.Media;
+using System.Windows.Media.Imaging;
 using System.Windows.Threading;
-using System.Data;
-using System.Linq;
-using System.Windows.Controls.Primitives;
-
 // 避免與 System.Drawing.Color 衝突
 using Color = System.Windows.Media.Color;
 using Colors = System.Windows.Media.Colors;
@@ -263,6 +264,37 @@ namespace NEW_QCtech
         {
             Close();
         }
+
+        
+
+        private void ImageTips_MouseLeave(object sender, MouseEventArgs e)
+        {
+            hintPopup.IsOpen = false;
+        }
+
+        private void ImageTips_MouseMove(object sender, MouseEventArgs e)
+        {
+
+            FrameworkElement item = sender as FrameworkElement;
+            if (item == null)
+                return;
+
+            string imagePath = item.Tag as string;
+            if (string.IsNullOrEmpty(imagePath))
+                return;
+            string appPath = System.AppDomain.CurrentDomain.BaseDirectory;
+            appPath = Directory.GetParent(appPath).Parent.Parent.Parent.FullName;
+            imagePath = appPath + imagePath;
+            hintImage.Source = new BitmapImage(new Uri(imagePath, UriKind.RelativeOrAbsolute));
+
+            hintPopup.PlacementTarget = item;
+            hintPopup.Placement = PlacementMode.Right;
+            hintPopup.HorizontalOffset = 0;
+            hintPopup.VerticalOffset = 0;
+            hintPopup.IsOpen = true;
+        }
+
+      
     }
 
 }
